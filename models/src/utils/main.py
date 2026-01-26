@@ -22,3 +22,17 @@ def corelation_data(
     
 
     return df[numeric_cols].corr(method)[output_var].sort_values(ascending=False)
+
+def separate_features_by_type(
+        df:pd.DataFrame
+)-> tuple[list[str], list[str]]:
+    """
+    Separate numerical and categorical features in the DataFrame.
+    """
+    if not isinstance(df, pd.DataFrame):
+        raise TypeError("df must be a pandas DataFrame")
+    
+    numeric_cols = df.select_dtypes(include='number').columns.tolist()
+    categorical_cols = df.select_dtypes(exclude='number').columns.tolist()
+    
+    return numeric_cols, categorical_cols

@@ -116,7 +116,7 @@ def plot_feature_distribution(
 
 def plot_multiple_features(df: pd.DataFrame, n_cols: int = 2, bins: int = 30):
 
-    columns = df.columns
+    columns = df.dtypes[df.dtypes != 'object'].index
 
     n_rows = (len(columns) + n_cols - 1) // n_cols
     plt.figure(figsize=(n_cols * 6, n_rows * 4))
@@ -125,6 +125,37 @@ def plot_multiple_features(df: pd.DataFrame, n_cols: int = 2, bins: int = 30):
         plt.subplot(n_rows, n_cols, i + 1)
         sns.histplot(data=df, x=df[feature], bins=bins, kde=True)
         plt.title(f"{feature} Distribution")
+
+    plt.tight_layout()
+    plt.show()
+
+
+def count_plot_multiple_features(df: pd.DataFrame, n_cols: int = 2):
+
+    columns = df.dtypes[df.dtypes == 'object'].index
+
+    n_rows = (len(columns) + n_cols - 1) // n_cols
+    plt.figure(figsize=(n_cols * 6, n_rows * 4))
+
+    for i, feature in enumerate(columns):
+        plt.subplot(n_rows, n_cols, i + 1)
+        sns.countplot(data=df, x=df[feature])
+        plt.title(f"{feature} Count Plot")
+
+    plt.tight_layout()
+    plt.show()
+
+def plot_multiple_boxplot(df: pd.DataFrame, n_cols: int = 2,):
+
+    columns = df.dtypes[df.dtypes != 'object'].index
+
+    n_rows = (len(columns) + n_cols - 1) // n_cols
+    plt.figure(figsize=(n_cols * 6, n_rows * 4))
+
+    for i, feature in enumerate(columns):
+        plt.subplot(n_rows, n_cols, i + 1)
+        sns.boxplot(data=df, x=df[feature])
+        plt.title(f"{feature}")
 
     plt.tight_layout()
     plt.show()
