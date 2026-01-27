@@ -36,3 +36,13 @@ def separate_features_by_type(
     categorical_cols = df.select_dtypes(exclude='number').columns.tolist()
     
     return numeric_cols, categorical_cols
+
+def convert_binary_categorical_to_numeric(df: pd.DataFrame, binary_cols: list[str]):
+    """
+    This will convert the binary object features into numeric values 0 and 1
+    """
+    if not isinstance(df, pd.DataFrame):
+        raise TypeError("df must be a pandas Dataframe")
+    
+    for col in binary_cols:
+        df[col] = df[col].map({"Yes": 1, "No": 0})
