@@ -114,9 +114,9 @@ def plot_feature_distribution(
     plt.show()
 
 
-def plot_multiple_features(df: pd.DataFrame, n_cols: int = 2, bins: int = 30):
+def plot_multiple_features(df: pd.DataFrame,cols:Optional[str]=None, n_cols: int = 2, bins: int = 30):
 
-    columns = df.dtypes[df.dtypes != 'object'].index
+    columns = cols if cols!=None else df.dtypes[df.dtypes != 'object'].index
 
     n_rows = (len(columns) + n_cols - 1) // n_cols
     plt.figure(figsize=(n_cols * 6, n_rows * 4))
@@ -130,9 +130,10 @@ def plot_multiple_features(df: pd.DataFrame, n_cols: int = 2, bins: int = 30):
     plt.show()
 
 
-def count_plot_multiple_features(df: pd.DataFrame, n_cols: int = 2):
+def count_plot_multiple_features(df: pd.DataFrame,cols: Optional[str]=None, n_cols: int = 2):
 
-    columns = df.dtypes[df.dtypes == 'object'].index
+    # columns = df.dtypes[df.dtypes == 'object'].index
+    columns = cols if cols!=None else df.columns 
 
     n_rows = (len(columns) + n_cols - 1) // n_cols
     plt.figure(figsize=(n_cols * 6, n_rows * 4))
@@ -145,9 +146,10 @@ def count_plot_multiple_features(df: pd.DataFrame, n_cols: int = 2):
     plt.tight_layout()
     plt.show()
 
-def plot_multiple_boxplot(df: pd.DataFrame, n_cols: int = 2,):
+def plot_multiple_boxplot(df: pd.DataFrame, cols:Optional[str]=None, n_cols: int = 2,):
 
-    columns = df.dtypes[df.dtypes != 'object'].index
+    # columns = df.dtypes[df.dtypes != 'object'].index
+    columns = cols if cols != None else df.columns
 
     n_rows = (len(columns) + n_cols - 1) // n_cols
     plt.figure(figsize=(n_cols * 6, n_rows * 4))
