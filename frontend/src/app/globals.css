@@ -38,6 +38,7 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -45,6 +46,10 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+
+  /* Pulse AI Custom Colors mapped to v4 */
+  --color-pulse-dark: #0f172a;
+  --color-pulse-dark-card: #1e293b;
 }
 
 :root {
@@ -80,6 +85,9 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Font mapping */
+  --font-geist-sans: 'Plus Jakarta Sans', 'sans-serif';
 }
 
 .dark {
@@ -116,6 +124,42 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@utility ecg-path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: ecg-flow 4s linear infinite;
+}
+
+@utility pulse-glow {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes ecg-flow {
+  0% { stroke-dashoffset: 1000; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes scan-line {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes scan-vertical {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+
+@keyframes glow {
+  from { opacity: 0.4; filter: blur(2px); }
+  to { opacity: 1; filter: blur(0px); }
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground transition-colors duration-300;
+    font-family: var(--font-geist-sans);
+  }
+}
 @layer base {
   * {
     @apply border-border outline-ring/50;
