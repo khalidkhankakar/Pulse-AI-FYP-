@@ -1,9 +1,14 @@
-import React from 'react'
+import { OverviewCards } from './_components/overview-cards';
+import { RiskPredicationCards } from './_components/risk-predication-cards';
+
+
+
 
 const page = () => {
   return (
-    <div>
-      hellow
+    <div className=' flex flex-col gap-4'>
+      <OverviewCards />
+      <RiskPredicationCards />
     </div>
   )
 }
