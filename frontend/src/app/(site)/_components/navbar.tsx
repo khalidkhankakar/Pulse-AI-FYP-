@@ -1,12 +1,12 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useTheme } from 'next-themes';
+import Link from 'next/link';
+import ThemeSwitcher from '@/components/shared/theme-switcher';
 
 export const Navbar = () => {
 
-    const { setTheme, theme } = useTheme()
+
     const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
@@ -17,7 +17,6 @@ export const Navbar = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const isDarkMode = theme === 'dark'
 
     return (
         <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
@@ -32,25 +31,18 @@ export const Navbar = () => {
 
                 <div className="hidden lg:flex items-center gap-8">
                     {['Home', 'About Us', 'Team', 'Testimonial'].map((item) => (
-                        <a
+                        <Link
                             key={item}
                             href={`#${item.toLowerCase().replace(' ', '-')}`}
                             className="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                         >
                             {item}
-                        </a>
+                        </Link>
                     ))}
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <Button
-                        onClick={() => setTheme(isDarkMode ? 'light' : 'dark')}
-                        className="p-2.5 rounded-full transition-all border shadow-sm"
-                        aria-label="Toggle theme"
-                    >
-                        {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                    </Button>
-
+                    <ThemeSwitcher />
                     <Button
                         className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-6 py-2.5 rounded-full font-bold text-sm transition-all active:scale-95 border border-slate-200 dark:border-slate-700 shadow-sm hover:opacity-90"
                     >

@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import MakeForm from '@/components/shared/make-form'
+
 import PredicationCard from '@/components/shared/predication-card'
 import { z } from 'zod'
 
@@ -14,6 +14,7 @@ import {
   Stethoscope,
   Heart,
 } from 'lucide-react'
+import AnotherMakeForm from '@/components/shared/another-make-form'
 
 const schema = z.object({
   pregnancies: z.coerce.number(),
@@ -99,19 +100,19 @@ const inputFields = [
     fieldType: 'input',
     typeInput: 'number',
   },
-] as const
+] as const;
 
 
 const DiabetesFormResult = () => {
 
-      const handleSubmit = (values: z.infer<typeof schema>) => {
+  const handleSubmit = (values: z.infer<typeof schema>) => {
     console.log(values)
   }
   
     return (
         <div className="grid grid-cols-1 mt-4 lg:grid-cols-12 gap-8 items-start">
             <div className="lg:col-span-8">
-                <MakeForm
+                <AnotherMakeForm
                     formSchema={schema}
                     defaultValues={{
                         pregnancies: 0,

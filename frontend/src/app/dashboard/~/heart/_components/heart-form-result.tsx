@@ -1,6 +1,5 @@
 'use client'
 import React from 'react'
-import MakeForm from '@/components/shared/make-form'
 import PredicationCard from '@/components/shared/predication-card'
 import { z } from 'zod'
 
@@ -15,6 +14,7 @@ import {
   Brain,
   BarChart3,
 } from 'lucide-react'
+import AnotherMakeForm from '@/components/shared/another-make-form'
 
 export const heartInputFields = [
   {
@@ -158,7 +158,7 @@ export const heartInputFields = [
       { label: 'Reversible Defect', value: '7' },
     ],
   },
-]
+] as const
 
 export const heartSchema = z.object({
   age: z.coerce.number().int().gt(0),
@@ -182,15 +182,10 @@ export type HeartSchemaType = z.infer<typeof heartSchema>
 
 
 const HeartFormResult = () => {
-
-  const handleSubmit = (values: z.infer<typeof heartSchema>) => {
-    console.log(values)
-  }
-
   return (
     <div className="grid grid-cols-1 mt-4 lg:grid-cols-12 gap-8 items-start">
       <div className="lg:col-span-8">
-        <MakeForm
+        <AnotherMakeForm
           formSchema={heartSchema}
           defaultValues={{
             age: 65,

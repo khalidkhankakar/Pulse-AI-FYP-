@@ -1,5 +1,5 @@
-import React from 'react'
-import { Activity, BarChart3, BrainCircuit, Info, RefreshCw, ShieldCheck } from 'lucide-react';
+import { Activity, BarChart3, BrainCircuit,  ShieldCheck } from 'lucide-react';
+import Heading from './heading';
 
 const overviewCards = [
   { label: 'Predictions Made', value: '12480', trend: '+12%', icon: <Activity className="w-5 h-5" />, color: 'primary' },
@@ -10,7 +10,7 @@ const overviewCards = [
 export const OverviewCards = () => {
   return (
      <div>
-        <h1 className='text-2xl font-semibold'>Statistics of Models</h1>
+      <Heading textHeading='Overview' />
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4'>
           {overviewCards.map((card, idx) => (
             <div key={idx} className="bg-card border border-border p-6 rounded-[2.5rem] shadow-sm hover:border-primary/50 transition-all hover:shadow-xl hover:shadow-primary/5 group relative overflow-hidden">

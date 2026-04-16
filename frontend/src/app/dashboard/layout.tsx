@@ -23,13 +23,13 @@ const DashboardLayout = ({
         <SidebarInset className="flex flex-col flex-1 relative">
 
           {/* Fixed Header (only inside right area) */}
-          <header className="sticky top-0 z-50 h-16 border-b bg-background flex items-center px-4">
+          {/* <header className="sticky top-0 z-50 h-16! border-b bg-background flex items-center px-4">
             <SidebarTrigger className="-ml-1" />
         
-          </header>
+          </header> */}
 
           {/* Scrollable Main */}
-          <main className="flex-1 overflow-y-auto p-4">
+          <main className="flex-1 p-4">
             {children}
           </main>
 
