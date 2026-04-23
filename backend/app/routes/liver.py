@@ -9,5 +9,5 @@ router = APIRouter(
 
 @router.post("/predict", response_model=LiverResponse)
 def predict(request: LiverRequest):
-    result = predict_liver(request.dict())
+    result = predict_liver(request.dict(by_alias=True))
     return result
