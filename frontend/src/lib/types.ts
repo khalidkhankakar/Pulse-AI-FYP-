@@ -17,9 +17,9 @@ export interface PredictionInput {
 }
 
 export interface PredictionResult {
-  riskScore: number;
-  assessment: string;
-  recommendations: string[];
+  predication: number;
+  probability?: number;
+  predicationLabel: string;
 }
 
 export interface ModelCardProps {

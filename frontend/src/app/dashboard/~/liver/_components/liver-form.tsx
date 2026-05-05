@@ -2,30 +2,28 @@
 import React, { useState } from 'react'
 import PredicationCard from '@/components/shared/predication-card'
 import AIInsightCard from '@/components/shared/ai-insight-card'
-import { heartInputFields } from '@/lib/constant'
 import AnotherMakeForm from '@/components/shared/another-make-form'
+import { liverInputFields } from '@/lib/constant'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { predictDisease } from '@/lib/api-client'
-import { heartSchema, HeartFormValues } from '@/lib/schemas'
+import { liverSchema, LiverFormValues } from '@/lib/schemas'
 
-
-const HeartFormResult = () => {
-  const [lastValues, setLastValues] = useState<HeartFormValues | null>(null)
+const LiverForm = () => {
+  const [lastValues, setLastValues] = useState<LiverFormValues | null>(null)
 
   const { mutate, data: result, isPending } = useMutation({
-    mutationFn: (values: HeartFormValues) => predictDisease('/heart/predict', values),
+    mutationFn: (values: LiverFormValues) => predictDisease('/liver/predict', values),
     onSuccess: (data, values) => {
       setLastValues(values)
-      toast.success('Heart disease prediction generated successfully')
+      toast.success('Liver disease prediction generated successfully')
     },
     onError: (error: Error) => {
       toast.error(error.message || 'Something went wrong')
     }
   })
 
-  const handleSubmit = (values: HeartFormValues) => {
-    
+  const handleSubmit = (values: LiverFormValues) => {
     mutate(values)
   }
 
@@ -33,25 +31,22 @@ const HeartFormResult = () => {
     <div className="grid grid-cols-1 mt-4 lg:grid-cols-12 gap-8 items-start">
       <div className="lg:col-span-8">
         <AnotherMakeForm
-          formSchema={heartSchema}
+          formSchema={liverSchema}
           defaultValues={{
-            age: 65,
-            sex: '0',
-            cp: '0',
-            trestbps: 160,
-            chol: 280,
-            fbs: '1',
-            restecg: '2',
-            thalach: 120,
-            exang: '1',
-            oldpeak: 2.5,
-            slope: '2',
-            ca: '2',
-            thal: '7',
+            Age: 50,
+            Gender: 0,
+            TB: 1.2,
+            DB: 0.3,
+            Alkphos: 230,
+            Sgpt: 40,
+            Sgot: 50,
+            TP: 6.5,
+            ALB: 3.5,
+            'A/G_Ratio': 0.9,
           }}
-          inputFields={heartInputFields}
+          inputFields={liverInputFields}
           onSubmit={handleSubmit}
-          submitLabel={isPending ? "Predicting..." : "Predict Heart Disease"}
+          submitLabel={isPending ? "Predicting..." : "Predict"}
         />
       </div>
 
@@ -61,9 +56,8 @@ const HeartFormResult = () => {
           predication_label={result?.prediction_label}
           probability={result?.probability}
         />
-
         <AIInsightCard 
-          disease_type="Heart Disease"
+          disease_type="Liver Disease"
           prediction={result}
           input_data={lastValues}
         />
@@ -72,4 +66,4 @@ const HeartFormResult = () => {
   )
 }
 
-export default HeartFormResult
+export default LiverForm

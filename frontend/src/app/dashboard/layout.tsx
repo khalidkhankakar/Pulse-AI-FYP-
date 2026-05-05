@@ -1,18 +1,23 @@
 import {
   SidebarInset,
   SidebarProvider,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import React from "react";
 import { DashboardSidebar } from "./_components/dashboard-sidebar";
-import { Separator } from "@/components/ui/separator";
+import QueryClientWrapper from "@/components/providers/query-client-wrapper";
+
+
 
 const DashboardLayout = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
+
+
   return (
+    <QueryClientWrapper>
+    
     <SidebarProvider>
       <div className="flex h-screen w-full">
 
@@ -36,6 +41,8 @@ const DashboardLayout = ({
         </SidebarInset>
       </div>
     </SidebarProvider>
+      
+    </QueryClientWrapper>
   );
 };
 

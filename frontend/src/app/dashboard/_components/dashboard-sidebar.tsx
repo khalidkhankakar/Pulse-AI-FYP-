@@ -44,18 +44,21 @@ export const DashboardSidebar = () => {
                                 size="lg"
                                 tooltip="PULSE AI"
                                 className="relative"
+                                asChild
                             >
-                                <div className="hidden group-hover:flex group-data-[collapsible=icon]:justify-center w-full ">
-                                    <SidebarTrigger icon={state === 'collapsed' ? ChevronLast : ChevronFirst} />
-                                </div>
-
-                                <div className="group-hover:hidden flex gap-2 items-center group-data-[collapsible=icon]:justify-center">
-                                    <div className=" w-8 h-8 bg-primary rounded-xl flex items-center justify-center text-primary-foreground font-black  shrink-0">
-                                        P
+                                <div>
+                                    <div className="hidden group-hover:flex group-data-[collapsible=icon]:justify-center w-full ">
+                                        <SidebarTrigger icon={state === 'collapsed' ? ChevronLast : ChevronFirst} />
                                     </div>
-                                    <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
-                                        <span className="font-black tracking-tighter leading-none">PULSE AI</span>
-                                        <span className="text-[10px] font-bold text-muted-foreground uppercase mt-0.5">Enterprise v4.2</span>
+
+                                    <div className="group-hover:hidden flex gap-2 items-center group-data-[collapsible=icon]:justify-center">
+                                        <div className=" w-8 h-8 bg-primary rounded-xl flex items-center justify-center text-primary-foreground font-black  shrink-0">
+                                            P
+                                        </div>
+                                        <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
+                                            <span className="font-black tracking-tighter leading-none">PULSE AI</span>
+                                            <span className="text-[10px] font-bold text-muted-foreground uppercase mt-0.5">Enterprise v4.2</span>
+                                        </div>
                                     </div>
                                 </div>
                             </SidebarMenuButton>
