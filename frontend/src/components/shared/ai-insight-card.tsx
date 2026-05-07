@@ -2,14 +2,15 @@
 
 import React from 'react'
 import { useChat } from '@ai-sdk/react'
-import { Sparkles, Loader2, AlertCircle, RefreshCw, Copy, Check } from 'lucide-react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
+import { Sparkles, Loader2, AlertCircle, RefreshCw,  } from 'lucide-react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
-import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import { PredictionResponse } from '@/lib/api-client'
+import Markdown from 'react-markdown'
+// import MyMarkdown from './markdown'
 
 interface AIInsightCardProps {
     disease_type: string
@@ -140,7 +141,7 @@ const AIInsightCard = ({ disease_type, prediction, input_data }: AIInsightCardPr
                     <div key={message.id}>
                         {message.role === 'user' ? 'User: ' : 'AI: '}
                         {message.parts.map((part, index) =>
-                            part.type === 'text' ? <span key={index}>{part.text}</span> : null,
+                            part.type === 'text' ? <Markdown key={index}>{part.text}</Markdown> : null,
                         )}
                     </div>
                 ))}

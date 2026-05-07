@@ -6,7 +6,7 @@ import React from 'react'
 const Heading = ({textHeading}:{textHeading:string}) => {
   return (
        <div className='flex justify-between items-center'>
-        <h1 className='text-2xl font-semibold'>{textHeading}</h1>
+        <h1 className='text-4xl font-black'>{textHeading}</h1>
         <SidebarTrigger icon={Menu} className='md:hidden' />
       </div>
   )

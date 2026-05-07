@@ -28,6 +28,7 @@ const StrokeForm = () => {
   }
 
   return (
+      <div className="flex flex-col gap-8">
     <div className="grid grid-cols-1 mt-4 lg:grid-cols-12 gap-8 items-start">
       <div className="lg:col-span-8">
         <AnotherMakeForm
@@ -56,12 +57,13 @@ const StrokeForm = () => {
           predication_label={result?.prediction_label}
           probability={result?.probability}
         />
+      </div>
+    </div>
         <AIInsightCard 
           disease_type="Stroke"
           prediction={result}
           input_data={lastValues}
         />
-      </div>
     </div>
   )
 }

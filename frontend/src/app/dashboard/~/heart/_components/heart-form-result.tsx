@@ -30,6 +30,7 @@ const HeartFormResult = () => {
   }
 
   return (
+    <div className="flex flex-col gap-8">
     <div className="grid grid-cols-1 mt-4 lg:grid-cols-12 gap-8 items-start">
       <div className="lg:col-span-8">
         <AnotherMakeForm
@@ -53,6 +54,7 @@ const HeartFormResult = () => {
           onSubmit={handleSubmit}
           submitLabel={isPending ? "Predicting..." : "Predict Heart Disease"}
         />
+       
       </div>
 
       <div className="lg:col-span-4 space-y-6">
@@ -62,12 +64,14 @@ const HeartFormResult = () => {
           probability={result?.probability}
         />
 
-        <AIInsightCard 
+      </div>
+        
+    </div>
+     <AIInsightCard 
           disease_type="Heart Disease"
           prediction={result}
           input_data={lastValues}
         />
-      </div>
     </div>
   )
 }
