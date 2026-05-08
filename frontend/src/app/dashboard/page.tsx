@@ -6,7 +6,7 @@ import { RiskPredicationCards } from './_components/risk-predication-cards';
 
 const page = () => {
   return (
-    <div className=' flex flex-col gap-4'>
+    <div className='flex flex-col gap-12'>
       <OverviewCards />
       <RiskPredicationCards />
     </div>

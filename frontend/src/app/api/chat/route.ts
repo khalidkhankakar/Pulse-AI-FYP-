@@ -18,7 +18,7 @@ export async function POST(req: Request) {
             model: qwenModel('qwen-plus'),
             system: AI_SYSTEM_PROMPT,
             messages: modelMessage,
-            maxOutputTokens: 20
+            maxOutputTokens: 200
         });
 
         return result.toUIMessageStreamResponse();

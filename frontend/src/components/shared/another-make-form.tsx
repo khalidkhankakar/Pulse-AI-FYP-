@@ -99,10 +99,10 @@ const AnotherMakeForm = <T extends ZodSchema>({
         onSubmit={form.handleSubmit(handleSubmit)}
         className={
           formClassName ||
-          'bg-card border border-border rounded-[2.5rem] shadow-xl shadow-primary/5 p-8 md:p-10'
+          'bg-card border border-border rounded-3xl shadow-lg p-6 md:p-8 lg:p-10'
         }
       >
-        <div className={className || 'grid grid-cols-1 md:grid-cols-2 gap-6'}>
+        <div className={className || 'grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6'}>
           {inputFields.map((field) => (
             <FormField
               key={field.name}
@@ -112,9 +112,9 @@ const AnotherMakeForm = <T extends ZodSchema>({
               render={({ field: fieldProps }) => (
                 <FormItem className="w-full">
                   <FormLabel asChild>
-                    <div className="flex items-center gap-2">
-                      {field.icon && <span>{field.icon}</span>}
-                      <span>{field.label}</span>
+                    <div className="flex items-center gap-2 mb-2">
+                      {field.icon && <span className="text-primary/70">{field.icon}</span>}
+                      <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{field.label}</span>
                     </div>
                   </FormLabel>
 
@@ -125,7 +125,7 @@ const AnotherMakeForm = <T extends ZodSchema>({
                         {...fieldProps}
                         type={field.typeInput || 'text'}
                         placeholder={field.placeholder}
-                        className="md:py-5 py-5 md:px-4 md:text-sm rounded-full"
+                        className="h-12 md:text-sm rounded-xl border-border/50 bg-background/50 focus-visible:ring-primary/20"
                       />
                     </FormControl>
                   )}
@@ -137,16 +137,17 @@ const AnotherMakeForm = <T extends ZodSchema>({
                         onValueChange={fieldProps.onChange}
                         defaultValue={fieldProps.value?.toString()}
                       >
-                        <SelectTrigger className="md:py-5 w-full py-5 md:px-4 md:text-sm rounded-full">
+                        <SelectTrigger className="h-12 w-full md:text-sm rounded-xl border-border/50 bg-background/50 focus:ring-primary/20">
                           <SelectValue
                             placeholder={field.placeholder || 'Select option'}
                           />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className="rounded-xl border-border/50">
                           {field.options.map((option: SelectOption) => (
                             <SelectItem
                               key={option.value}
                               value={option.value}
+                              className="rounded-lg"
                             >
                               {option.label}
                             </SelectItem>
@@ -157,29 +158,34 @@ const AnotherMakeForm = <T extends ZodSchema>({
                   )}
 
                   {field.desc && (
-                    <FormDescription className="text-xs">
+                    <FormDescription className="text-[10px] font-medium leading-relaxed">
                       {field.desc}
                     </FormDescription>
                   )}
 
-                  <FormMessage className="text-xs" />
+                  <FormMessage className="text-[10px] font-bold" />
                 </FormItem>
               )}
             />
           ))}
         </div>
 
-        <div className="flex items-center justify-end gap-2 pt-8">
+        <div className="flex items-center justify-end gap-3 pt-10 mt-10 border-t border-border/50">
           <Button
             type="button"
-            variant="outline"
+            variant="ghost"
             onClick={() => form.reset()}
+            className="rounded-xl px-6 font-bold uppercase tracking-widest text-[10px] hover:bg-muted"
           >
             {resetLabel}
           </Button>
 
-          <Button type="submit" disabled={form.formState.isSubmitting}>
-            {form.formState.isSubmitting ? 'Submitting...' : submitLabel}
+          <Button 
+            type="submit" 
+            disabled={form.formState.isSubmitting}
+            className="rounded-xl px-8 font-bold uppercase tracking-widest text-[10px] shadow-lg shadow-primary/20"
+          >
+            {form.formState.isSubmitting ? 'Processing...' : submitLabel}
           </Button>
         </div>
       </form>

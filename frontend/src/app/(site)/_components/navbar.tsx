@@ -1,40 +1,41 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import ThemeSwitcher from '@/components/shared/theme-switcher';
 
 export const Navbar = () => {
-
-
     const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50);
+            setIsScrolled(window.scrollY > 20);
         };
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-
     return (
-        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-                ? 'py-3 bg-white/80 dark:bg-primary/10 backdrop-blur-lg shadow-sm'
+        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+            isScrolled
+                ? 'py-3 bg-background/80 backdrop-blur-xl border-b border-border shadow-sm'
                 : 'py-6 bg-transparent'
-            }`}>
+        }`}>
             <div className="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                    <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg shadow-blue-600/20">P</div>
-                    <span className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Pulse AI</span>
-                </div>
+                <Link href="/" className="flex items-center gap-2 group transition-transform active:scale-95">
+                    <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-black shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-all">
+                        P
+                    </div>
+                    <span className="text-xl font-black tracking-tighter text-foreground">
+                        PULSE AI
+                    </span>
+                </Link>
 
-                <div className="hidden lg:flex items-center gap-8">
+                <div className="hidden md:flex items-center gap-1 bg-muted/50 p-1 rounded-full border border-border/50">
                     {['Home', 'About Us', 'Team', 'Testimonial'].map((item) => (
                         <Link
                             key={item}
                             href={`#${item.toLowerCase().replace(' ', '-')}`}
-                            className="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                            className="px-4 py-1.5 text-xs font-bold text-muted-foreground hover:text-foreground hover:bg-background rounded-full transition-all"
                         >
                             {item}
                         </Link>
@@ -43,11 +44,13 @@ export const Navbar = () => {
 
                 <div className="flex items-center gap-4">
                     <ThemeSwitcher />
-                    <Button
-                        className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-6 py-2.5 rounded-full font-bold text-sm transition-all active:scale-95 border border-slate-200 dark:border-slate-700 shadow-sm hover:opacity-90"
+                    <Link
+                        href="/dashboard"
+                        className="hidden sm:block bg-primary text-primary-foreground px-6 py-2.5 rounded-full font-black text-xs uppercase tracking-widest transition-all active:scale-95 hover:opacity-90 shadow-lg shadow-primary/20 border border-primary/20"
                     >
-                        Try Predications
-                    </Button>
+                        Try Predictions
+                    </Link>
+                    {/* Mobile Menu Trigger Placeholder - if needed */}
                 </div>
             </div>
         </nav>

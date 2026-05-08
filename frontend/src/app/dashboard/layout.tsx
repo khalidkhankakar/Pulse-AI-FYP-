@@ -34,7 +34,7 @@ const DashboardLayout = ({
           </header> */}
 
           {/* Scrollable Main */}
-          <main className="flex-1 p-4">
+          <main className="flex-1 p-4 md:p-6 lg:p-8 xl:p-10 max-w-7xl mx-auto w-full">
             {children}
           </main>
 

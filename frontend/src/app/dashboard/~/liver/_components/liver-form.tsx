@@ -28,42 +28,45 @@ const LiverForm = () => {
   }
 
   return (
-    <div className="flex flex-col gap-8">
-    <div className="grid grid-cols-1 mt-4 lg:grid-cols-12 gap-8 items-start">
-      <div className="lg:col-span-8">
-        <AnotherMakeForm
-          formSchema={liverSchema}
-          defaultValues={{
-            Age: 50,
-            Gender: 0,
-            TB: 1.2,
-            DB: 0.3,
-            Alkphos: 230,
-            Sgpt: 40,
-            Sgot: 50,
-            TP: 6.5,
-            ALB: 3.5,
-            'A/G_Ratio': 0.9,
-          }}
-          inputFields={liverInputFields}
-          onSubmit={handleSubmit}
-          submitLabel={isPending ? "Predicting..." : "Predict"}
-        />
+    <div className="flex flex-col gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+        <div className="lg:col-span-7 xl:col-span-8">
+          <AnotherMakeForm
+            formSchema={liverSchema}
+            defaultValues={{
+              Age: 50,
+              Gender: 0,
+              TB: 1.2,
+              DB: 0.3,
+              Alkphos: 230,
+              Sgpt: 40,
+              Sgot: 50,
+              TP: 6.5,
+              ALB: 3.5,
+              'A/G_Ratio': 0.9,
+            }}
+            inputFields={liverInputFields}
+            onSubmit={handleSubmit}
+            submitLabel={isPending ? "Analyzing Hepatology Data..." : "Run Liver Diagnostic"}
+          />
+        </div>
+
+        <div className="lg:col-span-5 xl:col-span-4">
+          <PredicationCard
+            predication={result?.prediction}
+            predication_label={result?.prediction_label}
+            probability={result?.probability}
+          />
+        </div>
       </div>
 
-      <div className="lg:col-span-4 space-y-6">
-        <PredicationCard
-          predication={result?.prediction}
-          predication_label={result?.prediction_label}
-          probability={result?.probability}
-        />
-      </div>
-      </div>
+      <div className="max-w-4xl">
         <AIInsightCard 
           disease_type="Liver Disease"
           prediction={result}
           input_data={lastValues}
         />
+      </div>
     </div>
   )
 }
