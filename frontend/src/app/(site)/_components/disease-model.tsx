@@ -7,7 +7,7 @@ enum DiseaseType {
   DIABETES = 'DIABETES',
   HEART_DISEASE = 'HEART_DISEASE',
   STROKE = 'STROKE',
-  BREAST_CANCER = 'BREAST_CANCER',
+  LIVER = 'LIVER',
 }
 
 const modelsData = [
@@ -17,7 +17,7 @@ const modelsData = [
     acc: '89.4%',
     algo: 'Random Forest',
     dataset: '768 Clinical Patients',
-    image: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?q=80&w=1000&auto=format&fit=crop',
+    image: '/disease/diabetes.jpg',
     icon: <Brain className="w-6 h-6" />,
     tagline: 'Predictive Glucose Mapping'
   },
@@ -27,7 +27,7 @@ const modelsData = [
     acc: '94.2%',
     algo: 'XGBoost Engine',
     dataset: '1,025 Heart Patients',
-    image: 'https://images.unsplash.com/photo-1628348068343-c6a848d2b6dd?q=80&w=1000&auto=format&fit=crop',
+    image: '/disease/heart.jpg',
     icon: <HeartPulse className="w-6 h-6" />,
     tagline: 'Vascular Pattern Recognition'
   },
@@ -37,17 +37,17 @@ const modelsData = [
     acc: '91.8%',
     algo: 'Logistic Reg.',
     dataset: '5,110 Medical Records',
-    image: 'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?q=80&w=1000&auto=format&fit=crop',
+    image: '/disease/stroke.jpg',
     icon: <Activity className="w-6 h-6" />,
     tagline: 'Neurological Risk Scoring'
   },
   {
-    type: DiseaseType.BREAST_CANCER,
-    name: 'Oncology Detection',
+    type: DiseaseType.LIVER,
+    name: 'Liver Detection',
     acc: '96.5%',
     algo: 'SVM Classifier',
     dataset: '569 Biopsy Records',
-    image: 'https://images.unsplash.com/photo-1579154235602-3c2c2aa95048?q=80&w=1000&auto=format&fit=crop',
+    image: '/disease/liver.jpg',
     icon: <Microscope className="w-6 h-6" />,
     tagline: 'Cellular Morphology Analysis'
   },
