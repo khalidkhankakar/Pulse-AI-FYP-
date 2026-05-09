@@ -1,79 +1,325 @@
+'use client'
 
-import React from 'react';
-import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react';
-import Link from 'next/link';
+import React from 'react'
+import Link from 'next/link'
+import {
+  Facebook,
+  Twitter,
+  Instagram,
+  Mail,
+  Phone,
+  MapPin,
+} from 'lucide-react'
+
+const socialLinks = [
+  {
+    icon: Facebook,
+    href: '#',
+    label: 'Facebook',
+  },
+  {
+    icon: Twitter,
+    href: '#',
+    label: 'Twitter',
+  },
+  {
+    icon: Instagram,
+    href: '#',
+    label: 'Instagram',
+  },
+]
+
+const services = [
+  'Health Analysis',
+  'Risk Scoring',
+  'Clinical Insights',
+  'Data Security',
+]
+
+const quickLinks = [
+  {
+    label: 'Home',
+    href: '/',
+  },
+  {
+    label: 'Dashboard',
+    href: '/dashboard',
+  },
+  {
+    label: 'About Us',
+    href: '#',
+  },
+  {
+    label: 'Contact Us',
+    href: '#',
+  },
+]
+
+const contactInfo = [
+  {
+    icon: Phone,
+    text: '+880 1623-018240',
+  },
+  {
+    icon: Mail,
+    text: 'hello@pulseai.com',
+  },
+  {
+    icon: MapPin,
+    text: '3511 Ranchview Dr. Richardson, California 62639',
+  },
+]
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="pt-24 pb-12 px-6 lg:px-10 bg-background border-t border-border">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-20">
-        <div className="lg:col-span-2 space-y-8">
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-black shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform">
-              P
+    <footer
+      className="
+        border-t border-border
+        bg-background
+      "
+    >
+      <div
+        className="
+          container mx-auto max-w-7xl
+          px-4 py-20 sm:px-6
+          lg:py-24
+        "
+      >
+        {/* Main Grid */}
+        <div
+          className="
+            grid gap-14
+            md:grid-cols-2
+            lg:grid-cols-5
+          "
+        >
+          {/* Brand */}
+          <div className="space-y-8 lg:col-span-2">
+            {/* Logo */}
+            <Link
+              href="/"
+              className="
+                inline-flex items-center gap-3
+              "
+            >
+              <div
+                className="
+                  flex size-11 items-center
+                  justify-center rounded-xl
+                  bg-primary text-lg
+                  font-bold text-primary-foreground
+                "
+              >
+                P
+              </div>
+
+              <span
+                className="
+                  text-2xl font-extrabold
+                  tracking-tight text-foreground
+                "
+              >
+                Pulse AI
+              </span>
+            </Link>
+
+            {/* Description */}
+            <p
+              className="
+                max-w-md text-sm
+                leading-relaxed text-muted-foreground
+                md:text-base
+              "
+            >
+              Providing intelligent healthcare solutions
+              powered by advanced artificial intelligence
+              for reliable diagnostics and predictive
+              medical analysis.
+            </p>
+
+            {/* Social Links */}
+            <div className="flex items-center gap-3">
+              {socialLinks.map((social, idx) => {
+                const Icon = social.icon
+
+                return (
+                  <a
+                    key={idx}
+                    href={social.href}
+                    aria-label={social.label}
+                    className="
+                      flex size-11 items-center
+                      justify-center rounded-xl
+                      border border-border
+                      bg-card text-muted-foreground
+                      transition-colors
+                      hover:bg-primary
+                      hover:text-primary-foreground
+                    "
+                  >
+                    <Icon className="size-5" />
+                  </a>
+                )
+              })}
             </div>
-            <span className="text-xl font-black tracking-tighter text-foreground uppercase">Pulse AI</span>
-          </Link>
-          <p className="text-muted-foreground leading-relaxed max-w-sm font-medium text-sm md:text-base">
-            Providing high-quality medical services using advanced artificial intelligence for reliable and hassle-free diagnostics.
-          </p>
-          <div className="flex gap-4">
-             {[Facebook, Twitter, Instagram].map((Icon, i) => (
-               <a key={i} href="#" className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all shadow-sm">
-                 <Icon className="w-5 h-5" />
-               </a>
-             ))}
+          </div>
+
+          {/* Services */}
+          <div className="space-y-6">
+            <h4
+              className="
+                text-sm font-semibold
+                uppercase tracking-widest
+                text-foreground
+              "
+            >
+              Services
+            </h4>
+
+            <ul className="space-y-4">
+              {services.map((service, idx) => (
+                <li key={idx}>
+                  <Link
+                    href="#"
+                    className="
+                      text-sm text-muted-foreground
+                      transition-colors
+                      hover:text-primary
+                    "
+                  >
+                    {service}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Quick Links */}
+          <div className="space-y-6">
+            <h4
+              className="
+                text-sm font-semibold
+                uppercase tracking-widest
+                text-foreground
+              "
+            >
+              Quick Links
+            </h4>
+
+            <ul className="space-y-4">
+              {quickLinks.map((link, idx) => (
+                <li key={idx}>
+                  <Link
+                    href={link.href}
+                    className="
+                      text-sm text-muted-foreground
+                      transition-colors
+                      hover:text-primary
+                    "
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div className="space-y-6">
+            <h4
+              className="
+                text-sm font-semibold
+                uppercase tracking-widest
+                text-foreground
+              "
+            >
+              Contact
+            </h4>
+
+            <ul className="space-y-5">
+              {contactInfo.map((item, idx) => {
+                const Icon = item.icon
+
+                return (
+                  <li
+                    key={idx}
+                    className="
+                      flex items-start gap-3
+                    "
+                  >
+                    <div
+                      className="
+                        mt-0.5 text-primary
+                      "
+                    >
+                      <Icon className="size-4" />
+                    </div>
+
+                    <span
+                      className="
+                        text-sm leading-relaxed
+                        text-muted-foreground
+                      "
+                    >
+                      {item.text}
+                    </span>
+                  </li>
+                )
+              })}
+            </ul>
           </div>
         </div>
 
-        <div>
-          <h4 className="font-black text-foreground mb-8 uppercase text-[10px] tracking-[0.3em]">Services</h4>
-          <ul className="space-y-4 text-muted-foreground text-xs md:text-sm font-black uppercase tracking-widest">
-            <li><Link href="#" className="hover:text-primary transition-colors">Health Analysis</Link></li>
-            <li><Link href="#" className="hover:text-primary transition-colors">Risk Scoring</Link></li>
-            <li><Link href="#" className="hover:text-primary transition-colors">Clinical Insights</Link></li>
-            <li><Link href="#" className="hover:text-primary transition-colors">Data Security</Link></li>
-          </ul>
-        </div>
+        {/* Bottom */}
+        <div
+          className="
+            mt-16 border-t border-border
+            pt-8
+          "
+        >
+          <div
+            className="
+              flex flex-col items-center
+              justify-between gap-4
+              text-center text-xs
+              text-muted-foreground
+              sm:flex-row sm:text-left
+            "
+          >
+            <div
+              className="
+                flex flex-wrap items-center
+                justify-center gap-4
+                sm:justify-start
+              "
+            >
+              <Link
+                href="#"
+                className="
+                  transition-colors
+                  hover:text-primary
+                "
+              >
+                Privacy Policy
+              </Link>
 
-        <div>
-          <h4 className="font-black text-foreground mb-8 uppercase text-[10px] tracking-[0.3em]">Quick Links</h4>
-          <ul className="space-y-4 text-muted-foreground text-xs md:text-sm font-black uppercase tracking-widest">
-            <li><Link href="/" className="hover:text-primary transition-colors">Home</Link></li>
-            <li><Link href="/dashboard" className="hover:text-primary transition-colors">Dashboard</Link></li>
-            <li><Link href="#" className="hover:text-primary transition-colors">About Us</Link></li>
-            <li><Link href="#" className="hover:text-primary transition-colors">Contact Us</Link></li>
-          </ul>
-        </div>
+              <Link
+                href="#"
+                className="
+                  transition-colors
+                  hover:text-primary
+                "
+              >
+                Terms of Service
+              </Link>
+            </div>
 
-        <div>
-          <h4 className="font-black text-foreground mb-8 uppercase text-[10px] tracking-[0.3em]">Contact</h4>
-          <ul className="space-y-6 text-muted-foreground text-xs md:text-sm font-bold">
-            <li className="flex items-center gap-3">
-              <Phone className="w-4 h-4 text-primary" />
-              <span className="tracking-widest">+880 1623-018240</span>
-            </li>
-            <li className="flex items-center gap-3">
-              <Mail className="w-4 h-4 text-primary" />
-              <span className="lowercase tracking-widest">hello@pulseai.com</span>
-            </li>
-            <li className="flex items-start gap-3 leading-relaxed">
-              <MapPin className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-              <span className="uppercase tracking-tight">3511 Ranchview Dr. Richardson, California 62639</span>
-            </li>
-          </ul>
+            <p>
+              © 2026 Pulse AI — Final Year Project
+            </p>
+          </div>
         </div>
-      </div>
-
-      <div className="pt-8 border-t border-border/50 text-center">
-         <div className="text-[9px] md:text-[10px] text-muted-foreground font-black uppercase tracking-[0.2em] flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-10">
-           <Link href="#" className="hover:text-primary transition-colors">Privacy Policy</Link>
-           <span className="hidden sm:block text-border">•</span>
-           <Link href="#" className="hover:text-primary transition-colors">Terms of Service</Link>
-           <span className="hidden sm:block text-border">•</span>
-           <span>© 2026 Pulse AI - Final Year Project</span>
-         </div>
       </div>
     </footer>
-  );
-};
+  )
+}

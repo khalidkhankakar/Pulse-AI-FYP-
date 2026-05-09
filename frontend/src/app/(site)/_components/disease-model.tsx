@@ -1,13 +1,27 @@
 'use client'
-import React, { useState } from 'react';
-import { Brain, Database, Cpu, Activity, ShieldCheck, HeartPulse, Microscope } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+
+import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import {
+  Brain,
+  Database,
+  Cpu,
+  Activity,
+  ShieldCheck,
+  HeartPulse,
+  Microscope,
+} from 'lucide-react'
 
 enum DiseaseType {
   DIABETES = 'DIABETES',
   HEART_DISEASE = 'HEART_DISEASE',
   STROKE = 'STROKE',
   LIVER = 'LIVER',
+}
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0 },
 }
 
 const modelsData = [
@@ -18,8 +32,8 @@ const modelsData = [
     algo: 'Random Forest',
     dataset: '768 Clinical Patients',
     image: '/disease/diabetes.jpg',
-    icon: <Brain className="w-6 h-6" />,
-    tagline: 'Predictive Glucose Mapping'
+    icon: Brain,
+    tagline: 'Predictive Glucose Mapping',
   },
   {
     type: DiseaseType.HEART_DISEASE,
@@ -28,18 +42,18 @@ const modelsData = [
     algo: 'XGBoost Engine',
     dataset: '1,025 Heart Patients',
     image: '/disease/heart.jpg',
-    icon: <HeartPulse className="w-6 h-6" />,
-    tagline: 'Vascular Pattern Recognition'
+    icon: HeartPulse,
+    tagline: 'Vascular Pattern Recognition',
   },
   {
     type: DiseaseType.STROKE,
     name: 'Stroke Prediction',
     acc: '91.8%',
-    algo: 'Logistic Reg.',
+    algo: 'Logistic Regression',
     dataset: '5,110 Medical Records',
     image: '/disease/stroke.jpg',
-    icon: <Activity className="w-6 h-6" />,
-    tagline: 'Neurological Risk Scoring'
+    icon: Activity,
+    tagline: 'Neurological Risk Scoring',
   },
   {
     type: DiseaseType.LIVER,
@@ -48,144 +62,424 @@ const modelsData = [
     algo: 'SVM Classifier',
     dataset: '569 Biopsy Records',
     image: '/disease/liver.jpg',
-    icon: <Microscope className="w-6 h-6" />,
-    tagline: 'Cellular Morphology Analysis'
+    icon: Microscope,
+    tagline: 'Cellular Morphology Analysis',
   },
-];
+]
 
 export const DiseaseModelsShowcase = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const activeModel = modelsData[activeIndex];
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  const activeModel = modelsData[activeIndex]
+  const ActiveIcon = activeModel.icon
 
   return (
-    <section className="py-24 px-6 lg:px-10 relative overflow-hidden bg-background">
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
-        {/* Left Side: Visual Display */}
-        <div className="flex-1 relative w-full h-[500px] md:h-[600px]">
-          <AnimatePresence mode="wait">
-            <motion.div 
-              key={activeIndex}
-              initial={{ opacity: 0, scale: 0.95, x: -20 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              exit={{ opacity: 0, scale: 1.05, x: 20 }}
-              transition={{ duration: 0.6, ease: "circOut" }}
-              className="absolute inset-0"
+    <section className="overflow-hidden bg-background py-20 md:py-24">
+      <div
+        className="
+          container mx-auto max-w-7xl
+          px-4 sm:px-6
+        "
+      >
+        <div
+          className="
+            grid gap-12 lg:grid-cols-2
+            lg:gap-16 xl:gap-20
+            items-center
+          "
+        >
+          {/* Visual Section */}
+          <div className="relative">
+            <div
+              className="
+                relative overflow-hidden
+                rounded-3xl border border-border
+                bg-card shadow-xl
+              "
             >
-              <div className="relative h-full shadow-2xl rounded-[3rem] overflow-hidden group border border-border">
-                <img 
-                  src={activeModel.image} 
-                  alt={activeModel.name} 
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[4000ms]"
-                />
-                
-                {/* Info Card Overlay */}
-                <motion.div 
-                  initial={{ y: 40, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.3, duration: 0.5 }}
-                  className="absolute bottom-6 md:bottom-8 left-6 md:left-8 right-6 md:right-8 bg-card/80 backdrop-blur-xl p-6 md:p-8 rounded-[2.5rem] border border-border shadow-2xl"
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeIndex}
+                  initial={{
+                    opacity: 0,
+                    scale: 0.96,
+                    x: -20,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                    x: 0,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    scale: 1.02,
+                    x: 20,
+                  }}
+                  transition={{
+                    duration: 0.5,
+                  }}
+                  className="relative"
                 >
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 shadow-sm">
-                        {activeModel.icon}
-                      </div>
+                  {/* Image */}
+                  <div className="relative aspect-[4/5] md:aspect-[5/6]">
+                    <img
+                      src={activeModel.image}
+                      alt={activeModel.name}
+                      className="
+                        h-full w-full object-cover
+                        transition-transform duration-1000
+                        hover:scale-105
+                      "
+                    />
 
-                      <div>
-                        <h4 className="font-black text-lg md:text-xl tracking-tighter text-foreground uppercase">
-                          {activeModel.name}
-                        </h4>
-                        <div className="flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                          <span className="text-[9px] text-primary font-black uppercase tracking-[0.2em]">
+                    {/* Overlay */}
+                    <div
+                      className="
+                        absolute inset-0
+                        bg-gradient-to-t
+                        from-background/90
+                        via-background/10
+                        to-transparent
+                      "
+                    />
+                  </div>
+
+                  {/* Info Card */}
+                  <motion.div
+                    initial={{
+                      opacity: 0,
+                      y: 20,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      y: 0,
+                    }}
+                    transition={{
+                      delay: 0.2,
+                    }}
+                    className="
+                      absolute bottom-4 left-4 right-4
+                      rounded-2xl border border-border
+                      bg-card/90 p-5 backdrop-blur-md
+                      md:bottom-6 md:left-6 md:right-6
+                      md:p-6
+                    "
+                  >
+                    {/* Top */}
+                    <div
+                      className="
+                        mb-6 flex items-start
+                        justify-between gap-4
+                      "
+                    >
+                      <div className="flex items-start gap-4">
+                        <div
+                          className="
+                            flex size-12 items-center
+                            justify-center rounded-xl
+                            border border-primary/20
+                            bg-primary/10 text-primary
+                          "
+                        >
+                          <ActiveIcon className="size-6" />
+                        </div>
+
+                        <div>
+                          <h3
+                            className="
+                              text-lg font-bold
+                              tracking-tight
+                              md:text-xl
+                            "
+                          >
+                            {activeModel.name}
+                          </h3>
+
+                          <div
+                            className="
+                              mt-2 flex items-center gap-2
+                              text-xs uppercase
+                              tracking-wide text-primary
+                            "
+                          >
+                            <span
+                              className="
+                                size-2 rounded-full
+                                bg-primary animate-pulse
+                              "
+                            />
+
                             {activeModel.tagline}
-                          </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <ShieldCheck className="hidden sm:block w-6 h-6 text-muted-foreground/30" />
-                  </div>
 
-                  <div className="grid grid-cols-2 gap-3 md:gap-4">
-                    <div className="bg-muted/50 p-4 rounded-2xl border border-border/50 hover:bg-muted transition-colors">
-                      <div className="text-[9px] text-muted-foreground uppercase font-black tracking-widest mb-1">Accuracy</div>
-                      <div className="text-xl md:text-2xl font-black text-primary">{activeModel.acc}</div>
-                    </div>
-
-                    <div className="bg-muted/50 p-4 rounded-2xl border border-border/50 hover:bg-muted transition-colors">
-                      <div className="text-[9px] text-muted-foreground uppercase font-black tracking-widest mb-1">Algorithm</div>
-                      <div className="text-xs md:text-sm font-black text-foreground uppercase">{activeModel.algo}</div>
+                      <ShieldCheck
+                        className="
+                          hidden size-5
+                          text-muted-foreground/40
+                          sm:block
+                        "
+                      />
                     </div>
 
-                    <div className="bg-muted/50 p-4 rounded-2xl border border-border/50 col-span-2 flex items-center justify-between hover:bg-muted transition-colors">
-                      <div>
-                        <div className="text-[9px] text-muted-foreground uppercase font-black tracking-widest mb-1">Dataset Size</div>
-                        <div className="text-xs md:text-sm font-bold text-foreground uppercase">{activeModel.dataset}</div>
+                    {/* Stats */}
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      {/* Accuracy */}
+                      <div
+                        className="
+                          rounded-xl border border-border
+                          bg-muted/40 p-4
+                        "
+                      >
+                        <div
+                          className="
+                            mb-1 text-xs uppercase
+                            tracking-wide text-muted-foreground
+                          "
+                        >
+                          Accuracy
+                        </div>
+
+                        <div
+                          className="
+                            text-2xl font-bold
+                            tracking-tight text-primary
+                          "
+                        >
+                          {activeModel.acc}
+                        </div>
                       </div>
-                      <Database className="w-5 h-5 text-primary/40" />
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
 
-        {/* Right Side: Navigation & Info */}
-        <div className="flex-1 space-y-10 lg:space-y-12 w-full">
-          <div className="space-y-6">
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 border border-primary/20 rounded-full text-[10px] font-black uppercase tracking-widest text-primary"
-            >
-              <Cpu className="w-3 h-3" /> Real-time Inference Grid
-            </motion.div>
-            <h2 className="text-4xl md:text-5xl lg:text-7xl font-black text-foreground leading-[0.95] tracking-tighter">
-              Machine Learning <br />
-              <span className="text-primary italic">Intelligence.</span>
-            </h2>
-            <p className="text-muted-foreground text-base md:text-lg leading-relaxed font-medium max-w-xl">
-              Switch between our specialized medical neural networks. Each model is trained on distinct clinical features to provide hyper-accurate risk assessments for critical conditions.
-            </p>
+                      {/* Algorithm */}
+                      <div
+                        className="
+                          rounded-xl border border-border
+                          bg-muted/40 p-4
+                        "
+                      >
+                        <div
+                          className="
+                            mb-1 text-xs uppercase
+                            tracking-wide text-muted-foreground
+                          "
+                        >
+                          Algorithm
+                        </div>
+
+                        <div
+                          className="
+                            text-sm font-semibold
+                            text-foreground
+                          "
+                        >
+                          {activeModel.algo}
+                        </div>
+                      </div>
+
+                      {/* Dataset */}
+                      <div
+                        className="
+                          flex items-center justify-between
+                          rounded-xl border border-border
+                          bg-muted/40 p-4
+                          sm:col-span-2
+                        "
+                      >
+                        <div>
+                          <div
+                            className="
+                              mb-1 text-xs uppercase
+                              tracking-wide text-muted-foreground
+                            "
+                          >
+                            Dataset Size
+                          </div>
+
+                          <div
+                            className="
+                              text-sm font-medium
+                              text-foreground
+                            "
+                          >
+                            {activeModel.dataset}
+                          </div>
+                        </div>
+
+                        <Database
+                          className="
+                            size-5 text-primary/40
+                          "
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {modelsData.map((m, idx) => (
-              <motion.button 
-                key={idx}
-                onClick={() => setActiveIndex(idx)}
-                whileHover={{ scale: 1.02, y: -4 }}
-                whileTap={{ scale: 0.98 }}
-                className={`text-left p-6 rounded-[2rem] border transition-all duration-500 group relative overflow-hidden ${
-                  activeIndex === idx 
-                  ? 'bg-primary/5 border-primary shadow-lg shadow-primary/10' 
-                  : 'bg-muted/30 border-border hover:border-primary/40'
-                }`}
+
+          {/* Content */}
+          <div className="space-y-10">
+            {/* Heading */}
+            <div className="space-y-6">
+              <motion.div
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className="
+                  inline-flex items-center gap-2
+                  rounded-full border border-primary/20
+                  bg-primary/10 px-4 py-2
+                  text-xs font-semibold uppercase
+                  tracking-widest text-primary
+                "
               >
-                {activeIndex === idx && (
-                  <motion.div 
-                    layoutId="active-pill"
-                    className="absolute inset-0 bg-primary/5 pointer-events-none"
-                  />
-                )}
-                <div className="flex justify-between items-start mb-2 relative z-10">
-                  <span className={`font-black tracking-tight text-lg uppercase transition-colors ${activeIndex === idx ? 'text-primary' : 'text-foreground'}`}>
-                    {m.name.split(' ')[0]}
-                  </span>
-                  <span className={`font-black text-[10px] transition-colors ${activeIndex === idx ? 'text-primary' : 'text-muted-foreground'}`}>
-                    {m.acc}
-                  </span>
-                </div>
-                <div className="text-[9px] font-black uppercase tracking-widest text-muted-foreground group-hover:text-primary transition-colors relative z-10">
-                  {m.algo}
-                </div>
-              </motion.button>
-            ))}
+                <Cpu className="size-3" />
+                Real-time Inference Grid
+              </motion.div>
+
+              <motion.h2
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="
+                  text-4xl font-extrabold
+                  leading-none tracking-tight
+                  text-foreground
+                  md:text-5xl lg:text-6xl
+                "
+              >
+                Machine Learning{' '}
+                <span className="italic text-primary">
+                  Intelligence.
+                </span>
+              </motion.h2>
+
+              <motion.p
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="
+                  max-w-xl text-base
+                  leading-relaxed text-muted-foreground
+                "
+              >
+                Switch between our specialized medical
+                neural networks. Each model is trained
+                on distinct clinical features to provide
+                accurate risk assessments for critical
+                medical conditions.
+              </motion.p>
+            </div>
+
+            {/* Model Navigation */}
+            <div className="grid gap-4 sm:grid-cols-2">
+              {modelsData.map((model, idx) => {
+                const Icon = model.icon
+                const isActive = activeIndex === idx
+
+                return (
+                  <motion.button
+                    key={idx}
+                    onClick={() => setActiveIndex(idx)}
+                    whileHover={{
+                      scale: 1.01,
+                      y: -2,
+                    }}
+                    whileTap={{
+                      scale: 0.99,
+                    }}
+                    className={`
+                      relative overflow-hidden
+                      rounded-2xl border p-5
+                      text-left transition-all
+                      ${
+                        isActive
+                          ? 'border-primary bg-primary/5'
+                          : 'border-border bg-card hover:border-primary/40'
+                      }
+                    `}
+                  >
+                    {/* Active Background */}
+                    {isActive && (
+                      <motion.div
+                        layoutId="active-model"
+                        className="
+                          absolute inset-0
+                          bg-primary/5
+                        "
+                      />
+                    )}
+
+                    <div className="relative z-10">
+                      {/* Top */}
+                      <div
+                        className="
+                          mb-4 flex items-start
+                          justify-between gap-4
+                        "
+                      >
+                        <div
+                          className="
+                            flex size-11 items-center
+                            justify-center rounded-xl
+                            bg-primary/10 text-primary
+                          "
+                        >
+                          <Icon className="size-5" />
+                        </div>
+
+                        <span
+                          className={`
+                            text-sm font-semibold
+                            ${
+                              isActive
+                                ? 'text-primary'
+                                : 'text-muted-foreground'
+                            }
+                          `}
+                        >
+                          {model.acc}
+                        </span>
+                      </div>
+
+                      {/* Content */}
+                      <div
+                        className={`
+                          mb-1 text-lg font-bold
+                          tracking-tight transition-colors
+                          ${
+                            isActive
+                              ? 'text-primary'
+                              : 'text-foreground'
+                          }
+                        `}
+                      >
+                        {model.name}
+                      </div>
+
+                      <div
+                        className="
+                          text-xs uppercase
+                          tracking-wide text-muted-foreground
+                        "
+                      >
+                        {model.algo}
+                      </div>
+                    </div>
+                  </motion.button>
+                )
+              })}
+            </div>
           </div>
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
