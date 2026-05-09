@@ -33,6 +33,7 @@ export type ModelId =
     | 'gemini-1.5-pro'
     | 'llama-3.1-8b-instant'
     | 'openai/gpt-oss-120b'
+    | 'groq/compound';
 
 function resolveModel(modelId: ModelId): LanguageModel {
     switch (modelId) {

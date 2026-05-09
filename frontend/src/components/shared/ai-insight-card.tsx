@@ -1,13 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import React, { useRef, useEffect, useState } from 'react'
 import { useChat } from '@ai-sdk/react'
-import { DefaultChatTransport } from 'ai'
 import {
     Sparkles, Loader2, AlertCircle, RefreshCw, Send,
     User, Bot, Trash2, ChevronDown, Zap, Brain, Cpu
 } from 'lucide-react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -39,6 +39,8 @@ type ModelId =
     | 'gemini-1.5-pro'
     | 'llama-3.1-8b-instant'
     | 'openai/gpt-oss-120b'
+    | 'groq/compound'
+      
 
 interface ModelMeta {
     id: ModelId
@@ -74,6 +76,7 @@ const MODEL_GROUPS: { provider: string; icon: React.ReactNode; models: ModelMeta
         models: [
             { id: 'llama-3.1-8b-instant', label: 'LLama 3.1 8B Instant', provider: 'Groq', badge: 'Smart', icon: <Cpu className="w-3.5 h-3.5" /> },
             { id: 'openai/gpt-oss-120b',  label: 'OpenAI GPT 120B',  provider: 'Groq', badge: 'Fast',  icon: <Cpu className="w-3.5 h-3.5" /> },
+            { id: 'groq/compound',  label: 'Groq Compound',  provider: 'Groq', badge: 'Fast',  icon: <Cpu className="w-3.5 h-3.5" /> },
         ],
     },
 ]
@@ -117,13 +120,7 @@ const AIInsightCard = ({ disease_type, prediction, input_data }: AIInsightCardPr
         error,
         clearError,
         setMessages,
-    } = useChat({
-        transport: new DefaultChatTransport({ api: '/api/chat' }),
-        onError: (err) => {
-            console.error('Chat error:', err)
-            toast.error('Failed to reach the AI engine')
-        },
-    })
+    } = useChat()
 
     const lastMessageRef = useRef<HTMLDivElement>(null)
     const isLoading = status === 'streaming' || status === 'submitted'
@@ -199,13 +196,13 @@ Based on the above ML prediction and clinical data, provide a comprehensive medi
     // ── Render ────────────────────────────────────────────────────────────────
 
     return (
-        <Card className="relative overflow-hidden border-primary/20 bg-background/50 backdrop-blur-md shadow-2xl transition-all duration-500 rounded-3xl mt-12 flex flex-col min-h-[500px] ">
+        <Card className="relative overflow-hidden border-primary/20 bg-background/50 backdrop-blur-md shadow-2xl transition-all duration-500 rounded-3xl mt-12 flex flex-col min-h-125 max-h-[50rem]  ">
             <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none">
                 <Sparkles className="w-24 h-24 text-primary" />
             </div>
 
             {/* Header */}
-            <CardHeader className="relative pb-4 border-b border-primary/10 flex-shrink-0">
+            <CardHeader className="relative pb-4 border-b border-primary/10 shrink-0">
                 <div className="flex items-center justify-between gap-3 flex-wrap">
                     <div className="flex items-center gap-3">
                         <div className="p-2.5 rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/20">
@@ -246,10 +243,10 @@ Based on the above ML prediction and clinical data, provide a comprehensive medi
             </CardHeader>
 
             {/* Body */}
-            <CardContent className="flex-grow overflow-hidden p-0 relative flex flex-col">
+            <CardContent className="grow overflow-auto no-scrollbar p-0 relative flex flex-col">
                 {/* Empty state */}
                 {messages.length === 0 && !isLoading && !error && (
-                    <div className="flex-grow flex flex-col items-center justify-center text-center p-8 space-y-6">
+                    <div className="grow flex flex-col items-center justify-center text-center p-8 space-y-6">
                         <div className="w-20 h-20 rounded-3xl bg-primary/10 flex items-center justify-center relative">
                             <Sparkles className="w-10 h-10 text-primary/40 animate-pulse" />
                             <div className="absolute -top-1 -right-1 w-4 h-4 bg-primary rounded-full animate-ping opacity-20" />
@@ -275,7 +272,7 @@ Based on the above ML prediction and clinical data, provide a comprehensive medi
                 )}
 
                 {/* Messages */}
-                <ScrollArea className="flex-grow p-6">
+                <ScrollArea className="grow p-6">
                     <div className="space-y-6 pb-4">
                         {messages.map((message, index) => {
                             const text = getMessageText(message as any)
@@ -289,7 +286,7 @@ Based on the above ML prediction and clinical data, provide a comprehensive medi
                                     key={message.id}
                                     className={cn(
                                         'flex gap-4 animate-in fade-in slide-in-from-bottom-2 duration-300',
-                                        message.role === 'user' ? 'flex-row-reverse' : 'flex-row'
+                                        message.role === 'user' ? ' flex-col items-end ' : 'flex-col'
                                     )}
                                     ref={index === messages.length - 1 ? lastMessageRef : null}
                                 >
@@ -302,7 +299,7 @@ Based on the above ML prediction and clinical data, provide a comprehensive medi
                                         {message.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
                                     </div>
                                     <div className={cn(
-                                        'max-w-[85%] rounded-2xl p-4 shadow-sm border',
+                                        'max-w-[95%] rounded-2xl p-4 shadow-sm border',
                                         message.role === 'user'
                                             ? 'bg-muted/50 border-border rounded-tr-none'
                                             : 'bg-background border-primary/10 rounded-tl-none'
@@ -329,7 +326,7 @@ Based on the above ML prediction and clinical data, provide a comprehensive medi
                         {/* Streaming skeleton */}
                         {isLoading && messages[messages.length - 1]?.role !== 'assistant' && (
                             <div className="flex gap-4 animate-pulse">
-                                <div className="w-8 h-8 rounded-lg bg-primary/20 flex-shrink-0 flex items-center justify-center mt-1">
+                                <div className="w-8 h-8 rounded-lg bg-primary/20 shrink-0 flex items-center justify-center mt-1">
                                     <Bot className="w-4 h-4 text-primary/40" />
                                 </div>
                                 <div className="max-w-[85%] rounded-2xl p-4 bg-background border border-primary/10 rounded-tl-none flex flex-col gap-2">
@@ -343,7 +340,7 @@ Based on the above ML prediction and clinical data, provide a comprehensive medi
                         {/* Error */}
                         {error && (
                             <div className="p-4 rounded-2xl bg-destructive/5 border border-destructive/20 text-destructive flex items-start gap-3">
-                                <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
+                                <AlertCircle className="w-5 h-5 mt-0.5 shrink-0" />
                                 <div className="space-y-2">
                                     <p className="text-xs font-bold uppercase tracking-widest">Service Interruption</p>
                                     <p className="text-xs">Failed to reach the medical AI engine. Please check your connection.</p>
@@ -362,8 +359,10 @@ Based on the above ML prediction and clinical data, provide a comprehensive medi
                 </ScrollArea>
 
                 {/* Input bar */}
-                {messages.length > 0 && (
-                    <div className="p-4 border-t border-primary/10 bg-background/50 backdrop-blur-sm">
+            </CardContent>
+            <CardFooter className="flex items-center justify-between w-full">
+                 {messages.length > 0 && (
+                    <div className="p-4 border-t w-full  border-primary/10 bg-background/50 backdrop-blur-sm">
                         <div className="flex gap-2">
                             <Input
                                 value={inputValue}
@@ -376,7 +375,7 @@ Based on the above ML prediction and clinical data, provide a comprehensive medi
                             <Button
                                 onClick={handleFollowUp}
                                 disabled={isLoading || !inputValue.trim()}
-                                className="rounded-xl w-12 h-12 p-0 flex-shrink-0 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20"
+                                className="rounded-xl w-12 h-12 p-0 shrink-0 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20"
                             >
                                 {isLoading
                                     ? <Loader2 className="w-5 h-5 animate-spin" />
@@ -388,7 +387,7 @@ Based on the above ML prediction and clinical data, provide a comprehensive medi
                         </p>
                     </div>
                 )}
-            </CardContent>
+            </CardFooter>
         </Card>
     )
 }
@@ -421,7 +420,7 @@ function ModelSwitcher({ selectedModel, groups, disabled, onSelect }: ModelSwitc
                     <span className={cn('flex items-center gap-1', PROVIDER_COLORS[selectedModel.provider])}>
                         {selectedModel.icon}
                     </span>
-                    <span className="hidden sm:inline max-w-[90px] truncate">{selectedModel.label}</span>
+                    <span className="hidden sm:inline max-w-22.5 truncate">{selectedModel.label}</span>
                     <ChevronDown className="w-3 h-3 text-muted-foreground" />
                 </Button>
             </DropdownMenuTrigger>

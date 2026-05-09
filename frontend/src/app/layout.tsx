@@ -1,17 +1,21 @@
 import "./globals.css";
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+
+import { DM_Sans, Space_Mono } from "next/font/google";
+
 import { ThemeProvider } from "@/components/shared/theme-provider";
 import { Toaster } from "@/components/ui/sonner"
+import { Metadata } from "next";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+
+const fontSans = DM_Sans({
   subsets: ["latin"],
+  variable: "--font-sans",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const fontMono = Space_Mono({
   subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-mono",
 });
 
 export const metadata: Metadata = {
@@ -27,8 +31,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      className={`${fontSans.variable} ${fontMono.variable} antialiased`}
+        >
          <ThemeProvider
             attribute="class"
             defaultTheme="system"
