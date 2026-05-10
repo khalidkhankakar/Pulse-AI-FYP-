@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { BrainCircuit, Activity, ChevronRight, HeartPulse, History, LayoutDashboard, LogOut, ChevronLast, ChevronFirst } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation";
+import { NavUser } from "./nav-user";
 
 const navItems = [
     { icon: LayoutDashboard, label: 'Overview',  link:'dashboard' },
@@ -34,9 +35,9 @@ export const DashboardSidebar = () => {
 
     return (
         <Sidebar collapsible="icon" className="border-r border-border bg-sidebar">
-            <SidebarHeader >
-                <SidebarMenu>
-                    <SidebarMenuItem>
+            <SidebarHeader  >
+                <SidebarMenu >
+                    <SidebarMenuItem >
                         <div className="group">
                             <SidebarMenuButton
                                 size="lg"
@@ -45,17 +46,14 @@ export const DashboardSidebar = () => {
                                 asChild
                             >
                                 <div>
-                                    <div className="hidden group-hover:flex group-data-[collapsible=icon]:justify-center w-full">
-                                        <SidebarTrigger icon={state === 'collapsed' ? ChevronLast : ChevronFirst} />
-                                    </div>
-
-                                    <div className="group-hover:hidden flex gap-3 items-center group-data-[collapsible=icon]:justify-center">
-                                        <div className="h-10 w-10 bg-primary rounded-xl flex items-center justify-center  text-primary-foreground font-black shadow-lg shadow-primary/20  uppercase">
-                                            <p>P</p>
+                                    
+                                    <div className=" flex gap-3 items-center group-data-[collapsible=icon]:justify-center ">
+                                        <div className="h-10 w-10 bg-primary rounded-xl flex items-center justify-center  font-black group-data-[collapsible=icon]:pr-2  uppercase">
+                                            <HeartPulse size={20} />
                                         </div>
                                         <div className="grid flex-1 text-left leading-tight group-data-[collapsible=icon]:hidden">
                                             <span className="font-bold tracking-tight text-sm text-foreground uppercase">PULSE AI</span>
-                                            <span className="text-[10px] font-medium text-muted-foreground uppercase mt-0.5 tracking-wider">Enterprise v4.2</span>
+                                            <span className="text-[10px] font-medium text-muted-foreground uppercase mt-0.5 tracking-wider">Version v1.2</span>
                                         </div>
                                     </div>
                                 </div>
@@ -109,16 +107,7 @@ export const DashboardSidebar = () => {
                         <ThemeSwitcher isSidebar={true} />
                     </SidebarMenuItem>
                     <SidebarMenuItem>
-                        <SidebarMenuButton
-                            size="lg"
-                            tooltip="Logout"
-                            className="rounded-xl text-destructive hover:bg-destructive/10 hover:text-destructive transition-all duration-200 group-data-[collapsible=icon]:justify-center"
-                        >
-                            <LogOut className="w-5 h-5 shrink-0" />
-                            <span className="group-data-[collapsible=icon]:hidden text-sm font-medium">
-                                Logout System
-                            </span>
-                        </SidebarMenuButton>
+                        <NavUser user={{avatar: '/khalid.jpeg', email: 'Uo2Tt@example.com', name: 'Khalid'}} />
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarFooter>

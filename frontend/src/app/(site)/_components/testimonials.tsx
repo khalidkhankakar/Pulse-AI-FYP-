@@ -3,6 +3,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Quote, ShieldCheck, Cpu, Zap, Microscope, Star } from 'lucide-react'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 
 const testimonialsData = [
   {
@@ -10,8 +11,7 @@ const testimonialsData = [
     role: 'Clinical Data Scientist',
     company: 'BioGen Research',
     text:
-      "Pulse AI's XGBoost implementation for cardiac risk reduced our false discovery rate by 14% across our pilot cohort. The feature importance mapping improves clinician trust significantly.",
-    avatar: 'https://i.pravatar.cc/150?u=sarah',
+      "Pulse AI's Logistic Regression implementation for cardiac risk reduced our false discovery rate by 14% across our pilot cohort. The feature importance mapping improves clinician trust significantly.",
     badge: '89%+ Accuracy',
     icon: Cpu,
   },
@@ -21,7 +21,6 @@ const testimonialsData = [
     company: 'HealthSync',
     text:
       'The REST API integration was seamless. We process 50k+ real-time inferences daily with sub-50ms latency. One of the most scalable ML pipelines we tested.',
-    avatar: 'https://i.pravatar.cc/150?u=mark',
     badge: 'Secure API',
     icon: Zap,
   },
@@ -31,7 +30,6 @@ const testimonialsData = [
     company: "St. Jude's Informatics",
     text:
       'Validation on biopsy datasets showed 96.5% precision. Pulse AI is setting a new benchmark for clinical decision support systems.',
-    avatar: 'https://i.pravatar.cc/150?u=elena',
     badge: 'Validated Model',
     icon: Microscope,
   },
@@ -44,7 +42,7 @@ export const Testimonials: React.FC = () => {
       className="relative overflow-hidden bg-background py-24 px-6 lg:px-10"
     >
       {/* Background Glow */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[800px] w-full max-w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-[120px]" />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-200 w-full max-w-200 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-[120px]" />
 
       <div className="relative z-10 mx-auto max-w-7xl">
 
@@ -70,6 +68,7 @@ export const Testimonials: React.FC = () => {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 md:gap-8">
           {testimonialsData.map((t, idx) => {
             const Icon = t.icon
+            
 
             return (
               <motion.div
@@ -110,11 +109,9 @@ export const Testimonials: React.FC = () => {
                 <div className="mt-10 flex items-center gap-4 border-t border-border pt-8 md:mt-12">
                   <div className="relative">
                     <div className="h-12 w-12 overflow-hidden rounded-full border-2 border-primary/20 p-1 transition-colors group-hover:border-primary md:h-14 md:w-14">
-                      <img
-                        src={t.avatar}
-                        alt={t.name}
-                        className="h-full w-full rounded-full object-cover grayscale transition duration-500 hover:grayscale-0"
-                      />
+                      <Avatar className='w-full h-full font-bold'>
+                        <AvatarFallback >{t.name.split(' ')[0].charAt(0) + t.name.split(' ')[1].charAt(0)}</AvatarFallback>
+                        </Avatar>
                     </div>
 
                     <div className="absolute -bottom-1 -right-1 rounded-full bg-primary p-1 text-primary-foreground shadow-sm">

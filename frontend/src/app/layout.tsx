@@ -20,7 +20,7 @@ const fontMono = Space_Mono({
 
 export const metadata: Metadata = {
   title: "Pulse AI",
-  description: "lorem ipsum dolor sit amet",
+  description: "Pulse AI - The Future of Clinical Decision Support Systems for Healthcare.",
 };
 
 export default function RootLayout({

@@ -3,7 +3,8 @@
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuContent } from '@/components/ui/dropdown-menu';
 import { Button } from '../ui/button';
 import { useTheme } from 'next-themes';
-import { MoonIcon, SunIcon, MonitorIcon } from 'lucide-react';
+import { MoonIcon, SunIcon, MonitorIcon, ChevronsUpDown } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface ThemeSwitcherProps {
   isSidebar?: boolean;
@@ -27,12 +28,18 @@ const ThemeSwitcher = ({ isSidebar = false }: ThemeSwitcherProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size={isSidebar ? "default" : "icon"} className={isSidebar ? "w-full justify-start group-data-[collapsible=icon]:justify-center" : ""}>
+        <Button variant="outline" size={isSidebar ? "default" : "icon"} className={isSidebar ? " w-full justify-start border-0 shadow-none bg-sidebar dark:hover:bg-sidebar-accent dark:bg-sidebar-dark group-data-[collapsible=icon]:justify-center" : ""} asChild>
+          <div className={cn("flex items-center justify-between ", isSidebar ? "w-full" : "")}>
+            <div className='flex items-center'>
+
           {currentIcon}
           {isSidebar && <span className="ml-2 group-data-[collapsible=icon]:hidden">Theme</span>}
+            </div>
+          {isSidebar && <ChevronsUpDown className=" group-data-[collapsible=icon]:hidden ml-auto size-4" />}
+          </div>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className={isSidebar ? 'w-full' : ''}>
+      <DropdownMenuContent side={isSidebar ? 'right' : 'bottom'} className={isSidebar ? 'w-full' : ''}>
         {themeOptions.map((option) => (
           <DropdownMenuItem className={isSidebar ? 'w-full' : ''} key={option.value} onClick={() => handleThemeChange(option.value)}>
             {option.icon}

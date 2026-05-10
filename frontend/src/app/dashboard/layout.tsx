@@ -5,6 +5,7 @@ import {
 import React from "react";
 import { DashboardSidebar } from "./_components/dashboard-sidebar";
 import QueryClientWrapper from "@/components/providers/query-client-wrapper";
+import DashboardHeader from "./_components/dashboard-header";
 
 
 
@@ -26,6 +27,7 @@ const DashboardLayout = ({
 
         {/* Right Content Area */}
         <SidebarInset className="flex flex-col flex-1 relative">
+          <DashboardHeader />
 
           {/* Fixed Header (only inside right area) */}
           {/* <header className="sticky top-0 z-50 h-16! border-b bg-background flex items-center px-4">

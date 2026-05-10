@@ -1,8 +1,9 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import Link from 'next/link'
 import ThemeSwitcher from '@/components/shared/theme-switcher'
+import {  HeartPulse } from 'lucide-react'
 
 const navItems = [
   { label: 'Home', href: '#' },
@@ -60,20 +61,10 @@ export const Navbar = () => {
               active:scale-95
             "
           >
-            <div
+              <HeartPulse />
+              <span
               className="
-                flex size-10 items-center
-                justify-center rounded-full
-                bg-primary text-lg
-                font-bold text-primary-foreground
-              "
-            >
-              P
-            </div>
-
-            <span
-              className="
-                text-xl font-extrabold
+                text-lg font-extrabold
                 tracking-tight text-foreground
               "
             >
