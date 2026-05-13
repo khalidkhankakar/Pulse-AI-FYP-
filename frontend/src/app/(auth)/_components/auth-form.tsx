@@ -15,6 +15,7 @@ import { useState } from "react"
 import { authClient } from "@/utils/auth-client"
 import { toast } from "sonner"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export function AuthForm({
   className,
@@ -22,67 +23,75 @@ export function AuthForm({
 
   ...props
 }: React.ComponentProps<"div"> & { type?: "LOGIN" | "SIGNUP" }) {
-
-
+  const router = useRouter()
 
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-
+  const [isLoading, setIsLoading] = useState(false)
 
   const loginSocialAuth = async (provider: 'github' | 'google') => {
-
-   const {data, error} = await authClient.signIn.social({
-      provider,
-      callbackURL: "/dashboard",
-      disableRedirect: true,
-    })
-    if(error){
-      console.log({error})
-      toast.error(error.message || 'Something went wrong')
+    try {
+      setIsLoading(true)
+      // Remove disableRedirect to let better-auth handle the redirect
+      await authClient.signIn.social({
+        provider,
+        callbackURL: "/dashboard",
+      })
+    } catch (error: any) {
+      console.error({ error })
+      toast.error(error?.message || 'Social login failed')
+      setIsLoading(false)
     }
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    // Handle form submission for better authz
+    
+    try {
+      setIsLoading(true)
 
-    if (type === "SIGNUP") {
-      await authClient.signUp.email({
-        email,
-        name,
-        password,
-        callbackURL: "/dashboard",
-      }, {
-        onError: ({ error }) => {
-          console.log(error)
-          toast.error(error.message || 'Something went wrong')
-        },
-        onSuccess: ({ }) => {
-          toast.success('Logged in successfully')
+      if (type === "SIGNUP") {
+        const result = await authClient.signUp.email({
+          email,
+          name,
+          password,
+        })
+        
+        if (result.error) {
+          toast.error(result.error.message || 'Sign up failed')
+          setIsLoading(false)
+          return
         }
 
-      })
-      return true
-    }
-    await authClient.signIn.email({
-      email,
-      password,
-      callbackURL: "/dashboard",
-      rememberMe: false
-    }, {
-      onError: ({ error }) => {
-        console.log(error)
-        toast.error(error.message || 'Something went wrong')
-      },
-      onSuccess: ({ }) => {
-        toast.success('Logged in successfully')
+        toast.success('Account created successfully! Redirecting...')
+        setTimeout(() => {
+          router.push("/dashboard")
+        }, 1000)
+        return
       }
 
-    })
+      // LOGIN
+      const result = await authClient.signIn.email({
+        email,
+        password,
+      })
 
+      if (result.error) {
+        toast.error(result.error.message || 'Login failed')
+        setIsLoading(false)
+        return
+      }
 
-
+      toast.success('Logged in successfully!')
+      setTimeout(() => {
+        router.push("/dashboard")
+      }, 500)
+    } catch (error: any) {
+      console.error({ error })
+      toast.error(error?.message || 'Authentication failed')
+      setIsLoading(false)
+    }
   }
 
 

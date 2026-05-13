@@ -156,8 +156,12 @@ export const Hero = () => {
           "
         >
           Predictive{' '}
-          <span className="italic text-primary">
+          <span className="italic text-primary border border-primary relative inline-block bg-primary/10 px-2">
             Health
+            <span className="absolute -top-1.5 -left-1.5 w-3 h-3 bg-white dark:bg-black border-2 border-primary"></span>
+            <span className="absolute -top-1.5 -right-1.5 w-3 h-3 bg-white dark:bg-black border-2 border-primary"></span>
+            <span className="absolute -bottom-1.5 -left-1.5 w-3 h-3 bg-white dark:bg-black border-2 border-primary"></span>
+            <span className="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-white dark:bg-black border-2 border-primary"></span>
           </span>
           <br />
 
@@ -237,37 +241,7 @@ export const Hero = () => {
           </Link>
 
           {/* Secondary Button */}
-          <button
-            className="
-              inline-flex items-center
-              gap-4 text-sm
-              font-semibold uppercase
-              tracking-widest
-              text-foreground
-              transition-colors
-              hover:text-primary
-            "
-          >
-            <div
-              className="
-                flex size-12 items-center
-                justify-center rounded-full
-                border border-border
-                bg-card
-                transition-colors
-                hover:border-primary/40
-                hover:bg-primary/5
-              "
-            >
-              <Play
-                className="
-                  ml-0.5 size-4 fill-current
-                "
-              />
-            </div>
-
-            Watch Demo
-          </button>
+          
         </motion.div>
       </div>
     </section>
