@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { ArrowRight, Play } from 'lucide-react'
+import Link from 'next/link'
 
 const fadeUp = {
   hidden: {
@@ -207,6 +208,8 @@ export const Hero = () => {
           "
         >
           {/* Primary Button */}
+          <Link href="/dashboard" className="cursor-pointer" >
+
           <button
             className="
               inline-flex w-full items-center
@@ -231,6 +234,7 @@ export const Hero = () => {
               "
             />
           </button>
+          </Link>
 
           {/* Secondary Button */}
           <button

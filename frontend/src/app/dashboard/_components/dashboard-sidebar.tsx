@@ -107,7 +107,7 @@ export const DashboardSidebar = () => {
                         <ThemeSwitcher isSidebar={true} />
                     </SidebarMenuItem>
                     <SidebarMenuItem>
-                        <NavUser user={{avatar: '/khalid.jpeg', email: 'Uo2Tt@example.com', name: 'Khalid'}} />
+                        <NavUser />
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarFooter>
