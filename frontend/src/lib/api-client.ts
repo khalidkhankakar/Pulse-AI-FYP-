@@ -4,7 +4,7 @@ export interface PredictionResponse {
   probability?: number;
 }
 
-export const BASE_URL = process.env.BASE_URL || 'http://localhost:8000/';
+export const BASE_URL = process.env.BASE_URL || 'https://pulse-ai-fyp-zhzk.vercel.app';
 
 export async function predictDisease<TRequest>(endpoint: string, values: TRequest): Promise<PredictionResponse> {
   const response = await fetch(`${BASE_URL}${endpoint}`, {
