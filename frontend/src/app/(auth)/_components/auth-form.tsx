@@ -15,7 +15,6 @@ import { useState } from "react"
 import { authClient } from "@/utils/auth-client"
 import { toast } from "sonner"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 
 export function AuthForm({
   className,
@@ -23,7 +22,6 @@ export function AuthForm({
 
   ...props
 }: React.ComponentProps<"div"> & { type?: "LOGIN" | "SIGNUP" }) {
-  const router = useRouter()
 
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
@@ -31,67 +29,94 @@ export function AuthForm({
   const [isLoading, setIsLoading] = useState(false)
 
   const loginSocialAuth = async (provider: 'github' | 'google') => {
-    try {
-      setIsLoading(true)
-      // Remove disableRedirect to let better-auth handle the redirect
-      await authClient.signIn.social({
-        provider,
-        callbackURL: "/dashboard",
-      })
-    } catch (error: any) {
-      console.error({ error })
-      toast.error(error?.message || 'Social login failed')
-      setIsLoading(false)
-    }
+
+    // Show a toast while redirecting to OAuth provider
+    toast.loading("Redirecting to " + provider + "...", { id: "oauth-loading" })
+
+    // Call OAuth sign-in - this will redirect to provider
+    await authClient.signIn.social({
+      provider,
+      callbackURL: "/dashboard",
+      
+
+    },
+      {
+        onRequest: () => {
+          setIsLoading(true)
+          // This callback is called when the request is initiated
+          toast.loading("Redirecting to " + provider + "...", { id: "oauth-loading" })
+        },
+        onSuccess: () => {
+          // This callback is called when the OAuth flow is successful
+          toast.success("Successfully authenticated with " + provider + "!")
+          setIsLoading(false)
+        },
+        onError: (ctx) => {
+          // This callback is called if there's an error during the OAuth flow
+          console.error("OAuth error:", ctx.error.message)
+          toast.error("Failed to authenticate with " + provider + ": " + (ctx.error.message || 'Unknown error'))
+          setIsLoading(false)
+        }
+      }
+
+    )
+
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    
-    try {
-      setIsLoading(true)
-
-      if (type === "SIGNUP") {
-        const result = await authClient.signUp.email({
-          email,
-          name,
-          password,
-        })
-        
-        if (result.error) {
-          toast.error(result.error.message || 'Sign up failed')
-          setIsLoading(false)
-          return
-        }
-
-        toast.success('Account created successfully! Redirecting...')
-        setTimeout(() => {
-          router.push("/dashboard")
-        }, 1000)
-        return
-      }
-
-      // LOGIN
-      const result = await authClient.signIn.email({
+    if (type === "SIGNUP") {
+      await authClient.signUp.email({
         email,
+        name,
         password,
+        callbackURL: "/dashboard",
+      },
+        {
+          onRequest: () => {
+            setIsLoading(true)
+            toast.loading("Creating your account...", { id: "signup-loading" })
+          },
+
+          onSuccess: () => {
+            toast.success("Account created successfully! Redirecting...")
+            setIsLoading(false)
+          },
+          onError: (ctx) => {
+            console.error("Signup error:", ctx.error.message)
+            toast.error("Failed to create account: " + (ctx.error.message || 'Unknown error'))
+            setIsLoading(false)
+            
+          }
+        })
+
+      return
+    }
+
+    // LOGIN
+    await authClient.signIn.email({
+      email,
+      password,
+    },
+      {
+        onRequest: () => {
+          setIsLoading(true)
+          toast.loading("Logging in...", { id: "login-loading" })
+        },
+        onSuccess: () => {
+          toast.success("Logged in successfully!")
+          setIsLoading(false)
+        },
+        onError: (ctx) => {
+          console.error("Login error:", ctx.error.message)
+          toast.error("Failed to login: " + (ctx.error.message || 'Unknown error'))
+          setIsLoading(false)
+        }
       })
 
-      if (result.error) {
-        toast.error(result.error.message || 'Login failed')
-        setIsLoading(false)
-        return
-      }
 
-      toast.success('Logged in successfully!')
-      setTimeout(() => {
-        router.push("/dashboard")
-      }, 500)
-    } catch (error: any) {
-      console.error({ error })
-      toast.error(error?.message || 'Authentication failed')
-      setIsLoading(false)
-    }
+
+
   }
 
 
@@ -145,15 +170,17 @@ export function AuthForm({
           </Field>
 
           <Field>
-            <Button type="submit">{type === "SIGNUP" ? "Sign up" : "Login"}</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? 'Loading...' : (type === "SIGNUP" ? "Sign up" : "Login")}
+            </Button>
           </Field>
           <FieldSeparator>Or</FieldSeparator>
           <Field className="grid gap-4 sm:grid-cols-2">
-            <Button onClick={() => loginSocialAuth('github')} variant="outline" type="button">
-              <Image src="/icons/github.svg" alt="Apple" width={20} height={20} />
+            <Button onClick={() => loginSocialAuth('github')} variant="outline" type="button" disabled={isLoading}>
+              <Image src="/icons/github.svg" alt="Github" width={20} height={20} />
               Continue with Github
             </Button>
-            <Button onClick={() => loginSocialAuth('google')} variant="outline" type="button">
+            <Button onClick={() => loginSocialAuth('google')} variant="outline" type="button" disabled={isLoading}>
               <Image src="/icons/google.svg" alt="Google" width={20} height={20} />
               Continue with Google
             </Button>
