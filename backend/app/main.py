@@ -15,7 +15,7 @@ app = FastAPI(
 # CORS (Cross-Origin Resource Sharing) middleware configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000/", "https://pulse-ai-fyp-ymja.vercel.app/"],  # Add your frontend URL here
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
