@@ -119,7 +119,9 @@ const DashboardSection = () => {
     return () => clearInterval(interval)
   }, [])
 
-  overviewCards[0].value = predictionCount.toLocaleString()
+  const displayCards = overviewCards.map((card, idx) =>
+    idx === 0 ? { ...card, value: predictionCount.toLocaleString() } : card
+  )
 
   return (
     <section
@@ -402,7 +404,7 @@ const DashboardSection = () => {
                     xl:grid-cols-4
                   "
                 >
-                  {overviewCards.map((card, idx) => {
+                  {displayCards.map((card, idx) => {
                     const Icon = card.icon
 
                     return (

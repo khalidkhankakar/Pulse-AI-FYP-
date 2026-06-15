@@ -12,6 +12,8 @@ import {
   Microscope,
 } from 'lucide-react'
 
+import Image from 'next/image'
+
 enum DiseaseType {
   DIABETES = 'DIABETES',
   HEART_DISEASE = 'HEART_DISEASE',
@@ -122,9 +124,10 @@ export const DiseaseModelsShowcase = () => {
                 >
                   {/* Image */}
                   <div className="relative aspect-[4/5] md:aspect-[5/6]">
-                    <img
+                    <Image
                       src={activeModel.image}
                       alt={activeModel.name}
+                      fill
                       className="
                         h-full w-full object-cover
                         transition-transform duration-1000

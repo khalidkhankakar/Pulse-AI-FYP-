@@ -1,6 +1,5 @@
 'use client'
-import { cn } from "@/lib/utils";
-import { CheckCircle2, AlertCircle } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
 const modelStats = [
   {
@@ -110,9 +109,8 @@ export const RiskPredicationCards = () => {
                 </div>
                 <div className="h-2 w-full bg-muted rounded-full overflow-hidden border border-border/50">
                   <div
-                    style={{ width: `${model.modelAccuracy}%` }}
+                    style={{ width: `${model.modelAccuracy}%`,  backgroundColor: colorVar }}
                     className="h-full transition-all duration-1000 ease-out shadow-sm"
-                    style={{ backgroundColor: colorVar }}
                   />
                 </div>
               </div>

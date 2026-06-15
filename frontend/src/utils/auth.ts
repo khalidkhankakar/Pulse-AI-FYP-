@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "./index";
+import { nextCookies } from "better-auth/next-js";
 
 // Validate required environment variables
 const requiredEnvVars = {
@@ -13,7 +14,7 @@ const requiredEnvVars = {
 };
 
 const missingVars = Object.entries(requiredEnvVars)
-  .filter(([_, value]) => !value)
+  .filter(([, value]) => !value)
   .map(([key]) => key);
 
 if (missingVars.length > 0) {
@@ -50,8 +51,12 @@ export const auth = betterAuth({
     },
     // Enable logging for debugging
     logger: process.env.NODE_ENV === 'development' ? {
-        error: (message: string) => console.error('[Better Auth Error]', message),
-        warn: (message: string) => console.warn('[Better Auth Warn]', message),
-        debug: (message: string) => console.log('[Better Auth Debug]', message),
+        level: 'debug',
+        log: (level, message) => {
+            console.log(`[Better Auth ${level.toUpperCase()}]`, message);
+        },
     } : undefined,
+    plugins: [
+        nextCookies()
+    ]
 });

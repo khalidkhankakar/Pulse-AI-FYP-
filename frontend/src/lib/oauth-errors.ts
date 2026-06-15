@@ -7,7 +7,7 @@ export const OAUTH_ERROR_CODES = {
   SERVER_ERROR: "server_error",
 } as const
 
-export function getOAuthErrorMessage(errorCode?: string): string {
+export function getOAuthErrorMessage(errorCode?: string | null): string {
   const messages: Record<string, string> = {
     state_mismatch:
       "Your session expired. Please try logging in again.",

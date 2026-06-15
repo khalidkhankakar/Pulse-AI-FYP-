@@ -1,11 +1,11 @@
 'use client'
-
-import React from 'react'
 import { motion } from 'framer-motion'
 import {
   ArrowRight,
   CheckCircle2,
 } from 'lucide-react'
+
+import Image from 'next/image'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -64,15 +64,15 @@ export const FacilitySection = () => {
               "
             >
               {/* Image */}
-              <div className="relative">
-                <img
-                  src="https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=800&auto=format&fit=crop"
+              <div className="relative h-105 md:h-130">
+                <Image
+                  src="/disease/facility-sec.avif"
                   alt="Premium AI healthcare facility"
+                  fill
                   className="
-                    h-[420px] w-full object-cover
+                    object-cover
                     transition-transform duration-700
                     hover:scale-105
-                    md:h-[520px]
                   "
                 />
 
@@ -80,7 +80,7 @@ export const FacilitySection = () => {
                 <div
                   className="
                     absolute inset-0
-                    bg-gradient-to-t
+                    bg-linear-to-t
                     from-background/80
                     via-background/10
                     to-transparent

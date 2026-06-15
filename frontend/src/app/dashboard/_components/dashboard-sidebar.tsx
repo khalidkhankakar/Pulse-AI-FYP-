@@ -9,11 +9,9 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-    SidebarTrigger,
-    useSidebar,
 } from "@/components/ui/sidebar"
 import { cn } from "@/lib/utils";
-import { BrainCircuit, Activity, ChevronRight, HeartPulse, History, LayoutDashboard, LogOut, ChevronLast, ChevronFirst } from "lucide-react"
+import { BrainCircuit, Activity, ChevronRight, HeartPulse, History, LayoutDashboard } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation";
 import { NavUser } from "./nav-user";
@@ -29,7 +27,6 @@ const navItems = [
 
 export const DashboardSidebar = () => {
     const searchParams = usePathname()
-    const { state } = useSidebar()
     const n = searchParams.split('/').length
     const activeComp = searchParams.split('/')[n-1]
 

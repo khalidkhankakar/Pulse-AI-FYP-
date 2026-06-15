@@ -11,7 +11,7 @@ interface ProtectedLayoutProps {
 
 export function ProtectedLayout({ children }: ProtectedLayoutProps) {
   const router = useRouter()
-  const { data: session,refetch, isPending } = useSession()
+  const { data: session, isPending } = useSession()
 
   useEffect(() => {
     // If session is loaded and no user is authenticated, redirect to login

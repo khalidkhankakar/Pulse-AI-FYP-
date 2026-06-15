@@ -15,6 +15,7 @@ import { useState } from "react"
 import { authClient } from "@/utils/auth-client"
 import { toast } from "sonner"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export function AuthForm({
   className,
@@ -27,24 +28,18 @@ export function AuthForm({
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
 
   const loginSocialAuth = async (provider: 'github' | 'google') => {
-
-    // Show a toast while redirecting to OAuth provider
-    toast.loading("Redirecting to " + provider + "...", { id: "oauth-loading" })
 
     // Call OAuth sign-in - this will redirect to provider
     await authClient.signIn.social({
       provider,
       callbackURL: "/dashboard",
-      
-
     },
       {
         onRequest: () => {
           setIsLoading(true)
-          // This callback is called when the request is initiated
-          toast.loading("Redirecting to " + provider + "...", { id: "oauth-loading" })
         },
         onSuccess: () => {
           // This callback is called when the OAuth flow is successful
@@ -75,11 +70,11 @@ export function AuthForm({
         {
           onRequest: () => {
             setIsLoading(true)
-            toast.loading("Creating your account...", { id: "signup-loading" })
           },
 
           onSuccess: () => {
             toast.success("Account created successfully! Redirecting...")
+            router.push("/dashboard")
             setIsLoading(false)
           },
           onError: (ctx) => {
@@ -101,10 +96,10 @@ export function AuthForm({
       {
         onRequest: () => {
           setIsLoading(true)
-          toast.loading("Logging in...", { id: "login-loading" })
         },
         onSuccess: () => {
           toast.success("Logged in successfully!")
+            router.push("/dashboard")
           setIsLoading(false)
         },
         onError: (ctx) => {
