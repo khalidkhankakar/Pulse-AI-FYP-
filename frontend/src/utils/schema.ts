@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, index, jsonb, doublePrecision } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -73,9 +73,23 @@ export const verification = pgTable(
   (table) => [index("verification_identifier_idx").on(table.identifier)],
 );
 
+export const predictionHistory = pgTable("prediction_history", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+  diseaseType: text("disease_type").notNull(),
+  inputs: jsonb("inputs").notNull(),
+  prediction: text("prediction").notNull(),
+  predictionLabel: text("prediction_label").notNull(),
+  probability: doublePrecision("probability"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => [
+  index("prediction_history_userId_idx").on(table.userId),
+]);
+
 export const userRelations = relations(user, ({ many }) => ({
   sessions: many(session),
   accounts: many(account),
+  predictionHistories: many(predictionHistory),
 }));
 
 export const sessionRelations = relations(session, ({ one }) => ({
@@ -91,3 +105,11 @@ export const accountRelations = relations(account, ({ one }) => ({
     references: [user.id],
   }),
 }));
+
+export const predictionHistoryRelations = relations(predictionHistory, ({ one }) => ({
+  user: one(user, {
+    fields: [predictionHistory.userId],
+    references: [user.id],
+  }),
+}));
+

@@ -30,13 +30,12 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 // ── Model registry (mirrors route.ts) ────────────────────────────────────────
 
 type ModelId =
-    | 'qwen-plus'
-    | 'qwen-turbo'
-    | 'qwen-max'
-    | 'qwen3.6-flash'
+    | 'qwen3-max'
+    | 'qwen3.7-plus'
+    | 'qwen3.5-122b-a10b'
     | 'gemini-2.0-flash'
+    | 'gemini-3.5-flash'
     | 'gemini-3-flash-preview'
-    | 'gemini-1.5-pro'
     | 'llama-3.1-8b-instant'
     | 'openai/gpt-oss-120b'
     | 'groq/compound'
@@ -55,18 +54,17 @@ const MODEL_GROUPS: { provider: string; icon: React.ReactNode; models: ModelMeta
         provider: 'Qwen',
         icon: <Zap className="w-3.5 h-3.5" />,
         models: [
-            { id: 'qwen-plus',  label: 'Qwen Plus',  provider: 'Qwen', badge: 'Balanced', icon: <Zap className="w-3.5 h-3.5" /> },
-            { id: 'qwen-turbo', label: 'Qwen Turbo', provider: 'Qwen', badge: 'Fast',     icon: <Zap className="w-3.5 h-3.5" /> },
-            { id: 'qwen-max',   label: 'Qwen Max',   provider: 'Qwen', badge: 'Powerful', icon: <Zap className="w-3.5 h-3.5" /> },
-            { id: 'qwen3.6-flash',   label: 'Qwen 3.6 Flash',   provider: 'Qwen', badge: 'Powerful', icon: <Zap className="w-3.5 h-3.5" /> },
+            { id: 'qwen3-max',  label: 'qwen3-max',  provider: 'Qwen', badge: 'Balanced', icon: <Zap className="w-3.5 h-3.5" /> },
+            { id: 'qwen3.7-plus',   label: 'Qwen 3.7 Plus',   provider: 'Qwen', badge: 'Powerful', icon: <Zap className="w-3.5 h-3.5" /> },
+            { id: 'qwen3.5-122b-a10b',   label: 'Qwen 3.5',   provider: 'Qwen', badge: 'Powerful', icon: <Zap className="w-3.5 h-3.5" /> },
         ],
     },
     {
         provider: 'Google',
         icon: <Brain className="w-3.5 h-3.5" />,
         models: [
+            { id: 'gemini-3.5-flash', label: 'Gemini 3.5 Flash', provider: 'Gemini', badge: 'Fast', icon: <Brain className="w-3.5 h-3.5" /> },
             { id: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash', provider: 'Gemini', badge: 'Fast', icon: <Brain className="w-3.5 h-3.5" /> },
-            { id: 'gemini-1.5-pro',   label: 'Gemini 1.5 Pro',   provider: 'Gemini', badge: 'Pro',  icon: <Brain className="w-3.5 h-3.5" /> },
              { id: 'gemini-3-flash-preview',   label: 'Gemini 3.0 Flash',   provider: 'Gemini', badge: 'Pro',  icon: <Brain className="w-3.5 h-3.5" /> },
         ],
     },
@@ -105,7 +103,7 @@ interface AIInsightCardProps {
 
 const AIInsightCard = ({ disease_type, prediction, input_data }: AIInsightCardProps) => {
     const [inputValue, setInputValue] = useState('')
-    const [selectedModelId, setSelectedModelId] = useState<ModelId>('qwen-plus')
+    const [selectedModelId, setSelectedModelId] = useState<ModelId>('qwen3-max')
 
     // Ref so sendMessage closures always read the latest selected model
     const selectedModelRef = useRef<ModelId>(selectedModelId)
@@ -196,7 +194,7 @@ Based on the above ML prediction and clinical data, provide a comprehensive medi
     // ── Render ────────────────────────────────────────────────────────────────
 
     return (
-        <Card className="relative overflow-hidden border-primary/20 bg-background/50 backdrop-blur-md shadow-2xl transition-all duration-500 rounded-3xl mt-12 flex flex-col min-h-125 max-h-[50rem]  ">
+        <Card className="relative overflow-hidden border-primary/20 bg-background/50 backdrop-blur-md shadow-2xl transition-all duration-500 rounded-3xl mt-12 flex flex-col min-h-125 max-h-200  ">
             <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none">
                 <Sparkles className="w-24 h-24 text-primary" />
             </div>

@@ -24,11 +24,11 @@ const groqProvider = createGroq({
 // ── Supported models registry ────────────────────────────────────────────────
 
 export type ModelId =
-    | 'qwen-plus'
-    | 'qwen-turbo'
-    | 'qwen-max'
-    | 'qwen3.6-flash'
+    | 'qwen3-max'
+    | 'qwen3.7-plus'
+    | 'qwen3.5-122b-a10b'
     | 'gemini-2.0-flash'
+    | 'gemini-3.5-flash'
     | 'gemini-3-flash-preview'
     | 'gemini-1.5-pro'
     | 'llama-3.1-8b-instant'
@@ -38,19 +38,19 @@ export type ModelId =
 function resolveModel(modelId: ModelId): LanguageModel {
     switch (modelId) {
         // Qwen / Alibaba
-        case 'qwen-plus':    return qwenProvider('qwen-plus');
-        case 'qwen-turbo':   return qwenProvider('qwen-turbo');
-        case 'qwen-max':     return qwenProvider('qwen-max');
-        case 'qwen3.6-flash':     return qwenProvider('qwen3.6-flash');
+        case 'qwen3-max':    return qwenProvider('qwen3-max');
+        case 'qwen3.7-plus':     return qwenProvider('qwen3.7-plus');
+        case 'qwen3.5-122b-a10b':     return qwenProvider('qwen3.5-122b-a10b');
         // Google Gemini
-        case 'gemini-2.0-flash': return geminiProvider('gemini-2.5-flash');
+        case 'gemini-2.0-flash': return geminiProvider('gemini-2.0-flash');
+        case 'gemini-3.5-flash': return geminiProvider('gemini-3.5-flash');
         case 'gemini-3-flash-preview':   return geminiProvider('gemini-3-flash-preview');
-        case 'gemini-1.5-pro':   return geminiProvider('gemini-1.5-pro');
         // Anthropic Claude
         case 'llama-3.1-8b-instant': return groqProvider('llama-3.1-8b-instant');
         case 'openai/gpt-oss-120b':  return groqProvider('openai/gpt-oss-120b');
+        case 'groq/compound':  return groqProvider('groq/compound');
         // Default fallback
-        default: return qwenProvider('qwen-plus');
+        default: return qwenProvider('qwen3-max');
     }
 }
 
@@ -60,7 +60,7 @@ export async function POST(req: Request) {
     try {
         const { messages, modelId } = await req.json();
 
-        const model = resolveModel((modelId as ModelId) ?? 'qwen-plus');
+        const model = resolveModel((modelId as ModelId) ?? 'qwen3-max');
         const modelMessages = await convertToModelMessages(messages);
 
         const result = streamText({

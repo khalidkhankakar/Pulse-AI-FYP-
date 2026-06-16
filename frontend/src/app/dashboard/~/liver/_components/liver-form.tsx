@@ -8,15 +8,28 @@ import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { predictDisease } from '@/lib/api-client'
 import { liverSchema, LiverFormValues } from '@/lib/schemas'
+import { savePredictionHistory } from '@/app/dashboard/_actions/history'
 
 const LiverForm = () => {
   const [lastValues, setLastValues] = useState<LiverFormValues | null>(null)
 
   const { mutate, data: result, isPending } = useMutation({
     mutationFn: (values: LiverFormValues) => predictDisease('/liver/predict', values),
-    onSuccess: (data, values) => {
+    onSuccess: async (data, values) => {
       setLastValues(values)
       toast.success('Liver disease prediction generated successfully')
+
+      try {
+        await savePredictionHistory({
+          diseaseType: 'Liver Disease',
+          inputs: values,
+          prediction: String(data.prediction),
+          predictionLabel: data.prediction_label,
+          probability: data.probability,
+        })
+      } catch (error) {
+        console.error('Failed to save history:', error)
+      }
     },
     onError: (error: Error) => {
       toast.error(error.message || 'Something went wrong')

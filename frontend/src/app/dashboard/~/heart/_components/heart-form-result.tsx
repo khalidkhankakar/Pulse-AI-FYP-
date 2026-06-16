@@ -8,6 +8,7 @@ import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { predictDisease } from '@/lib/api-client'
 import { heartSchema, HeartFormValues } from '@/lib/schemas'
+import { savePredictionHistory } from '@/app/dashboard/_actions/history'
 
 
 const HeartFormResult = () => {
@@ -15,9 +16,21 @@ const HeartFormResult = () => {
 
   const { mutate, data: result, isPending } = useMutation({
     mutationFn: (values: HeartFormValues) => predictDisease('/heart/predict', values),
-    onSuccess: (data, values) => {
+    onSuccess: async (data, values) => {
       setLastValues(values)
       toast.success('Heart disease prediction generated successfully')
+
+      try {
+        await savePredictionHistory({
+          diseaseType: 'Heart Disease',
+          inputs: values,
+          prediction: String(data.prediction),
+          predictionLabel: data.prediction_label,
+          probability: data.probability,
+        })
+      } catch (error) {
+        console.error('Failed to save history:', error)
+      }
     },
     onError: (error: Error) => {
       toast.error(error.message || 'Something went wrong')

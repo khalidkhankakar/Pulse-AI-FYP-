@@ -1,7 +1,10 @@
 import Heading from "../../_components/heading"
-import React from 'react'
+import HistoryTable from "./_components/history-table"
+import { getPredictionHistory } from "../../_actions/history"
 
-const page = () => {
+const HistoryPage = async () => {
+  const history = await getPredictionHistory()
+
   return (
     <div className="flex flex-col gap-10">
       <div className="space-y-4 max-w-4xl mx-auto text-center">
@@ -11,11 +14,15 @@ const page = () => {
         </p>
       </div>
 
-      <div className="bg-card border border-border rounded-3xl p-12 text-center text-muted-foreground">
-        Patient history records will be displayed here.
-      </div>
+      {history.length === 0 ? (
+        <div className="bg-card border border-border rounded-3xl p-12 text-center text-muted-foreground">
+          No diagnostic records found.
+        </div>
+      ) : (
+        <HistoryTable history={history} />
+      )}
     </div>
   )
 }
 
-export default page
+export default HistoryPage
